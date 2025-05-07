@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bandeja de Volantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/bandeja.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bandeja de Volantes</h1>
+
+        <table class="tabla-volantes">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Citado por</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Habitación</th>
+                    <th>Ext</th>
+                    <th>Enfermera</th>
+                    <th>Nº</th>
+                    <th>BOX</th>
+
+                    <th>Diabetes</th>
+                    <th>Renal</th>
+                    <th>Alergia yodo</th>
+                    <th>Cardiopata</th>
+
+                    <th>Insulina</th>
+                    <th>ADO</th>
+                    <th>Antibióticos</th>
+                    <th>Corticoides</th>
+
+                    <th>Estadificación</th>
+                    <th>Respuesta a tto</th>
+                    <th>Control evolutivo</th>
+                    <th>TOD</th>
+
+                    <th>Planificación RT</th>
+                    <th>Re-Estadificación</th>
+                    <th>Sospecha Recidiva</th>
+                    <th>Sospecha Infección</th>
+
+                    <th>PET</th>
+                    <th>TC</th>
+                    <th>RMN</th>
+                    <th>Otro4</th>
+
+                    <th>Cirugía</th>
+                    <th>RadioT</th>
+                    <th>QuimioT</th>
+                    <th>InmunoT</th>
+                    <th>Otro</th>
+
+                    <th>F-FDG</th>
+                    <th>F-Colina</th>
+                    <th>F-FDOPA</th>
+                    <th>F-PSMA</th>
+                    <th>Amiloide</th>
+                    <th>Ga-DOTATOC</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in volantes %}
+                <tr>
+                    <td>{{ v.id }}</td>
+                    <td>{{ v.Citado_por }}</td>
+                    <td>{{ v.Fecha }}</td>
+                    <td>{{ v.Hora }}</td>
+                    <td>{{ v.Habitacion }}</td>
+                    <td>{{ v.Extension }}</td>
+                    <td>{{ v.Enfermera }}</td>
+                    <td>{{ v.Numero }}</td>
+                    <td>{{ v.BOX }}</td>
+
+                    <td>{{ 'Sí' if v.Diabetes else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Renal else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Alergia_yodo else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Cardiopata else 'No' }}</td>
+
+                    <td>{{ 'Sí' if v.Insulina else 'No' }}</td>
+                    <td>{{ 'Sí' if v.ADO else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Antibioticos else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Corticoides else 'No' }}</td>
+
+                    <td>{{ 'Sí' if v.Estadificacion else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Respuesta_a_tto else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Control_evolutivo else 'No' }}</td>
+                    <td>{{ 'Sí' if v.TOD else 'No' }}</td>
+
+                    <td>{{ 'Sí' if v.Planificacion_RT else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Re_Estadistificacion else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Sospecha_Recidiva else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Sospecha_Infeccion else 'No' }}</td>
+
+                    <td>{{ v.PET }}</td>
+                    <td>{{ v.TC }}</td>
+                    <td>{{ v.RMN }}</td>
+                    <td>{{ v.Otro4 }}</td>
+
+                    <td>{{ v.Cirugia }}</td>
+                    <td>{{ v.RadioT }}</td>
+                    <td>{{ v.QuimioT }}</td>
+                    <td>{{ v.InmunoT }}</td>
+                    <td>{{ v.Otro }}</td>
+
+                    <td>{{ 'Sí' if v.F_FDG else 'No' }}</td>
+                    <td>{{ 'Sí' if v.F_Colina else 'No' }}</td>
+                    <td>{{ 'Sí' if v.F_FDOPA else 'No' }}</td>
+                    <td>{{ 'Sí' if v.F_PSMA else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Amiloide else 'No' }}</td>
+                    <td>{{ 'Sí' if v.Ga_DOTATOC else 'No' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="volver">
+            <a href="/">⬅ Volver al menú</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
+

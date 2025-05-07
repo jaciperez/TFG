@@ -4,36 +4,58 @@ class Volante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Evaluación
-    citado = db.Column(db.String(100))
-    fecha = db.Column(db.String(20))
-    hora = db.Column(db.String(20))
-    hab = db.Column(db.String(50))
-    ext = db.Column(db.String(50))
-    enfermera = db.Column(db.String(100))
-    numero = db.Column(db.String(50))
-    box = db.Column(db.String(50))
+    # Aquí debería poner algún campo relacionado con el paciente(nº historia, nombre y apellidos, etc) info mas concreta
+    Citado_por = db.Column(db.String(100))
+    Fecha = db.Column(db.Date, nullable=True)
+    Hora = db.Column(db.String(20))
+    Habitacion = db.Column(db.String(50))
+    Extension = db.Column(db.String(50))
+    Enfermera = db.Column(db.String(100))
+    Numero = db.Column(db.String(50))
+    BOX = db.Column(db.String(50))
 
     # Antecedentes personales
-    diabetes = db.Column(db.Boolean)
-    renal = db.Column(db.Boolean)
-    alergia_yodo = db.Column(db.Boolean)
-    cardiopata = db.Column(db.Boolean)
+    Diabetes = db.Column(db.Boolean)
+    Renal = db.Column(db.Boolean)
+    Alergia_yodo = db.Column(db.Boolean)
+    Cardiopata = db.Column(db.Boolean)
 
     # Medicación actual
-    insulina = db.Column(db.Boolean)
+    Insulina = db.Column(db.Boolean)
     ADO = db.Column(db.Boolean)
-    antibioticos = db.Column(db.Boolean)
-    corticoides = db.Column(db.Boolean)
+    Antibioticos = db.Column(db.Boolean)
+    Corticoides = db.Column(db.Boolean)
 
     # Motivo de exploración
-    estadificacion = db.Column(db.Boolean)
-    respuesta_a_tto = db.Column(db.Boolean)
-    control_evolutivo = db.Column(db.Boolean)
+    Estadificacion = db.Column(db.Boolean)
+    Respuesta_a_tto = db.Column(db.Boolean)
+    Control_evolutivo = db.Column(db.Boolean)
     TOD = db.Column(db.Boolean)
 
     # Motivo de exploración pt2
-    planificacion_rt = db.Column(db.Boolean)
-    re_estadistificacion = db.Column(db.Boolean)
-    sospecha_recidiva = db.Column(db.Boolean)
-    sospecha_infeccion = db.Column(db.Boolean)
+    Planificacion_RT = db.Column(db.Boolean)
+    Re_Estadistificacion = db.Column(db.Boolean)
+    Sospecha_Recidiva = db.Column(db.Boolean)
+    Sospecha_Infeccion = db.Column(db.Boolean)
 
+    # Estudios previos
+    PET = db.Column(db.Date, nullable=True)
+    TC = db.Column(db.Date, nullable=True)
+    RMN = db.Column(db.Date, nullable=True)
+    Otro4 = db.Column(db.Date, nullable=True)
+
+    # Final del tratamiento previo
+    Cirugia = db.Column(db.Date, nullable=True)
+    RadioT = db.Column(db.Date, nullable=True)
+    QuimioT = db.Column(db.Date, nullable=True)
+    InmunoT = db.Column(db.Date, nullable=True)
+    Otro = db.Column(db.Date, nullable=True)
+
+    #Radiofarmaco
+    F_FDG = db.Column(db.Boolean)
+    F_Colina = db.Column(db.Boolean)
+    F_FDOPA = db.Column(db.Boolean)
+    F_PSMA = db.Column(db.Boolean)
+    Amiloide = db.Column(db.Boolean)
+    Ga_DOTATOC = db.Column(db.Boolean)
+    

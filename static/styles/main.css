@@ -112,3 +112,21 @@ input[type="checkbox"] {
 label {
     margin: 0;
 }
+.volver a {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.volver a:hover {
+    background: linear-gradient(135deg, #5a6268, #23272b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

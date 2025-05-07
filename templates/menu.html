@@ -1,51 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Menú principal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .menu-container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 30px;
-        }
-        .menu-button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .menu-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
 </head>
 <body>
-    <div class="menu-container">
-        <h1>Bienvenido al sistema de volantes médicos</h1>
-        <form action="/volante">
-            <button class="menu-button" type="submit">Crear volante PET</button>
-        </form>
+    <div class="menu-container"> 
+        <!--Con esto conseguimos enviar mensajes tipo flash-->
+        {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+                <div class="mensaje-flash">
+                    {% for mensaje in mensajes %}
+                        <p>{{ mensaje }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <h1>Bienvenido a GammaDoc   </h1>
+
+        <a href="/volante">
+            <button class="menu-button">➕ Crear volante PET</button>
+        </a>
+
+        <a href="/bandeja">
+            <button class="menu-button">📂 Bandeja</button>
+        </a>
     </div>
+        <script src="{{ url_for('static', filename='scripts/mensajesFlash.js') }}"></script>
 </body>
 </html>
+
