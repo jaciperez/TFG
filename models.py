@@ -1,7 +1,18 @@
 from database import db
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from datetime import datetime
+
+
+
 
 class Volante(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    creado_por = db.Column(db.Integer, db.ForeignKey('user.id'))
+    fecha_creacion = db.Column(db.DateTime, default=datetime.now)
+
+    editado_por = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    fecha_edicion = db.Column(db.DateTime, nullable=True)
 
     # Evaluación
     # Aquí debería poner algún campo relacionado con el paciente(nº historia, nombre y apellidos, etc) info mas concreta
@@ -59,3 +70,15 @@ class Volante(db.Model):
     Amiloide = db.Column(db.Boolean)
     Ga_DOTATOC = db.Column(db.Boolean)
     
+
+class User(UserMixin, db.Model):
+    id       = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email    = db.Column(db.String(120), unique=True, nullable=False)
+    pwd_hash = db.Column(db.String(128), nullable=False)
+    role     = db.Column(db.String(20), nullable=False)  # 'facultativo', 'enfermero', 'tecnico'
+
+    def set_password(self, pw):
+        self.pwd_hash = generate_password_hash(pw)
+    def check_password(self, pw):
+        return check_password_hash(self.pwd_hash, pw)
