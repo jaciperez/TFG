@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandeja de Volantes</title>
+    
+
+  <!-- DataTables CSS -->
+  <link 
+    rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
+  />
+
+  <!-- Tus CSS personalizados -->
+  <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='styles/bandeja.css') }}"
+  >
+  <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='styles/botonBusqueda.css') }}"
+  >
+  <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='styles/panelBandeja.css') }}"
+  >
+</head>
+<body>
+
+  <div class="volver-arriba">
+    <a href="/">⬅ Volver al menú</a>
+  </div>
+  <h1>Bandeja de Volantes</h1>
+
+  {% with mensajes = get_flashed_messages() %}
+    {% if mensajes %}
+      <div class="mensaje-flash">
+        {% for mensaje in mensajes %}<p>{{ mensaje }}</p>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="botones-superiores">
+    <button id="btn-adv-search" class="btn-adv">🔍 Búsqueda avanzada</button>
+    <a href="{{ url_for('volantes.exportar_excel') }}" class="excel-button">Exportar a Excel</a>
+  </div>
+
+  <div class="toggle-columns-container">
+    <button id="btn-toggle-cols">Ver más…</button>
+  </div>
+
+  <table id="tabla-volantes" class="tabla-volantes display">
+    <thead>
+      <tr>
+        <th>Editar</th>
+        <th>ID</th>
+        <th>Nº Historia</th>
+        <th>Citado por</th>
+        <th>Fecha</th>
+        <th>Hora</th>
+        <th>Habitación</th>
+        <th>Ext</th>
+        <th>Enfermera</th>
+        <th>Nº</th>
+        <th>BOX</th>
+        <th>Diabetes</th>
+        <th>Renal</th>
+        <th>Alergia yodo</th>
+        <th>Cardiopata</th>
+        <th>Insulina</th>
+        <th>ADO</th>
+        <th>Antibióticos</th>
+        <th>Corticoides</th>
+        <th>Estadificación</th>
+        <th>Respuesta a tto</th>
+        <th>Control evolutivo</th>
+        <th>TOD</th>
+        <th>Planificación RT</th>
+        <th>Re-Estadificación</th>
+        <th>Sospecha Recidiva</th>
+        <th>Sospecha Infección</th>
+        <th>PET</th>
+        <th>TC</th>
+        <th>RMN</th>
+        <th>Otro4</th>
+        <th>Cirugía</th>
+        <th>RadioT</th>
+        <th>QuimioT</th>
+        <th>InmunoT</th>
+        <th>Otro</th>
+        <th>F-FDG</th>
+        <th>F-Colina</th>
+        <th>F-FDOPA</th>
+        <th>F-PSMA</th>
+        <th>Amiloide</th>
+        <th>Ga-DOTATOC</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in volantes %}
+      <tr class="volante-row"
+          data-creador="{{ v.creador.username if v.creador else 'Desconocido' }}"
+          data-creado="{{ v.fecha_creacion.strftime('%d/%m/%Y %H:%M') if v.fecha_creacion else '' }}"
+          data-editor="{{ v.editor.username if v.editor else 'Sin cambios' }}"
+          data-editado="{{ v.fecha_edicion.strftime('%d/%m/%Y %H:%M') if v.fecha_edicion else '' }}">
+        <td>
+          <a href="{{ url_for('volantes.editar_volante', id=v.id) }}">
+            <button>✎ Editar</button>
+          </a>
+        </td>
+        <td>{{ v.id }}</td>
+        <td>{{ v.num_historia }}</td>
+        <td>{{ v.Citado_por }}</td>
+        <td>{{ v.Fecha }}</td>
+        <td>{{ v.Hora }}</td>
+        <td>{{ v.Habitacion }}</td>
+        <td>{{ v.Extension }}</td>
+        <td>{{ v.Enfermera }}</td>
+        <td>{{ v.Numero }}</td>
+        <td>{{ v.BOX }}</td>
+        <td>{{ 'Sí' if v.Diabetes else 'No' }}</td>
+        <td>{{ 'Sí' if v.Renal else 'No' }}</td>
+        <td>{{ 'Sí' if v.Alergia_yodo else 'No' }}</td>
+        <td>{{ 'Sí' if v.Cardiopata else 'No' }}</td>
+        <td>{{ 'Sí' if v.Insulina else 'No' }}</td>
+        <td>{{ 'Sí' if v.ADO else 'No' }}</td>
+        <td>{{ 'Sí' if v.Antibioticos else 'No' }}</td>
+        <td>{{ 'Sí' if v.Corticoides else 'No' }}</td>
+        <td>{{ 'Sí' if v.Estadificacion else 'No' }}</td>
+        <td>{{ 'Sí' if v.Respuesta_a_tto else 'No' }}</td>
+        <td>{{ 'Sí' if v.Control_evolutivo else 'No' }}</td>
+        <td>{{ 'Sí' if v.TOD else 'No' }}</td>
+        <td>{{ 'Sí' if v.Planificacion_RT else 'No' }}</td>
+        <td>{{ 'Sí' if v.Re_Estadistificacion else 'No' }}</td>
+        <td>{{ 'Sí' if v.Sospecha_Recidiva else 'No' }}</td>
+        <td>{{ 'Sí' if v.Sospecha_Infeccion else 'No' }}</td>
+        <td>{{ v.PET }}</td>
+        <td>{{ v.TC }}</td>
+        <td>{{ v.RMN }}</td>
+        <td>{{ v.Otro4 }}</td>
+        <td>{{ v.Cirugia }}</td>
+        <td>{{ v.RadioT }}</td>
+        <td>{{ v.QuimioT }}</td>
+        <td>{{ v.InmunoT }}</td>
+        <td>{{ v.Otro }}</td>
+        <td>{{ 'Sí' if v.F_FDG else 'No' }}</td>
+        <td>{{ 'Sí' if v.F_Colina else 'No' }}</td>
+        <td>{{ 'Sí' if v.F_FDOPA else 'No' }}</td>
+        <td>{{ 'Sí' if v.F_PSMA else 'No' }}</td>
+        <td>{{ 'Sí' if v.Amiloide else 'No' }}</td>
+        <td>{{ 'Sí' if v.Ga_DOTATOC else 'No' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- Modal de Búsqueda Avanzada -->
+  <div id="adv-search-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Búsqueda avanzada</h2>
+      <form id="adv-search-form">
+        <fieldset>
+          <legend>Evaluación</legend>
+          <label><input type="text" name="Citado_por" placeholder="Citado por"></label>
+          <label>Desde <input type="date" name="Fecha_desde"> </label>
+          <label>Hasta <input type="date" name="Fecha_hasta"> </label>
+          <label>Hora exacta <input type="time" name="Hora"></label>
+          <label><input type="text" name="Habitacion" placeholder="Habitación"></label>
+          <label><input type="text" name="Extension" placeholder="Ext"></label>
+          <label><input type="text" name="Enfermera" placeholder="Enfermera"></label>
+          <label><input type="text" name="Numero" placeholder="Nº"></label>
+          <label><input type="text" name="BOX" placeholder="BOX"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Antecedentes personales</legend>
+          <label><input type="checkbox" name="Diabetes"> Diabetes</label>
+          <label><input type="checkbox" name="Renal"> Renal</label>
+          <label><input type="checkbox" name="Alergia_yodo"> Alergia yodo</label>
+          <label><input type="checkbox" name="Cardiopata"> Cardiopata</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Medicación actual</legend>
+          <label><input type="checkbox" name="Insulina"> Insulina</label>
+          <label><input type="checkbox" name="ADO"> ADO</label>
+          <label><input type="checkbox" name="Antibioticos"> Antibióticos</label>
+          <label><input type="checkbox" name="Corticoides"> Corticoides</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Exploración</legend>
+          <label><input type="checkbox" name="Estadificacion"> Estadificación</label>
+          <label><input type="checkbox" name="Respuesta_a_tto"> Respuesta a tto</label>
+          <label><input type="checkbox" name="Control_evolutivo"> Control evolutivo</label>
+          <label><input type="checkbox" name="TOD"> TOD</label>
+          <label><input type="checkbox" name="Planificacion_RT"> Planificación RT</label>
+          <label><input type="checkbox" name="Re_Estadistificacion"> Re-Estadificación</label>
+          <label><input type="checkbox" name="Sospecha_Recidiva"> Sospecha Recidiva</label>
+          <label><input type="checkbox" name="Sospecha_Infeccion"> Sospecha Infección</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Estudios previos</legend>
+          <label>PET <input type="date" name="PET"></label>
+          <label>TC <input type="date" name="TC"></label>
+          <label>RMN <input type="date" name="RMN"> </label>
+          <label>Otro <input type="date" name="Otro4"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Final de tratamiento previo</legend>
+          <label>Cirugía <input type="date" name="Cirugia"></label>
+          <label>RadioT <input type="date" name="RadioT"></label>
+          <label>QuimioT <input type="date" name="QuimioT"></label>
+          <label>InmunoT <input type="date" name="InmunoT"></label>
+          <label>Otro <input type="date" name="Otro"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Radiofármacos</legend>
+          <label><input type="checkbox" name="F_FDG"> F-FDG</label>
+          <label><input type="checkbox" name="F_Colina"> F-Colina</label>
+          <label><input type="checkbox" name="F_FDOPA"> F-FDOPA</label>
+          <label><input type="checkbox" name="F_PSMA"> F-PSMA</label>
+          <label><input type="checkbox" name="Amiloide"> Amiloide</label>
+          <label><input type="checkbox" name="Ga_DOTATOC"> Ga-DOTATOC</label>
+        </fieldset>
+
+        <button type="submit">Aplicar filtro</button>
+        <button type="button" id="btn-clear-filters">Limpiar filtros</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="tooltip-panel"></div>
+
+  <div class="volver">
+    <a href="/">⬅ Volver al menú</a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script 
+    src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
+  </script>
+  <script src="{{ url_for('static', filename='scripts/mensajesFlash.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/bandeja.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/botonBusqueda.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/panelBandeja.js') }}"></script>
+</body>
+</html>

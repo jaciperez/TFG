@@ -1,0 +1,284 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f5;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+    background-color: white;
+    position: relative;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+
+
+.toggle-columns-container {
+  text-align:right;
+  margin-bottom:12px;
+}
+#btn-toggle-cols {
+  background:#28a745;
+  color:#fff;
+  border:none;
+  padding:6px 14px;
+  border-radius:4px;
+  cursor:pointer;
+  transition:background .2s;
+}
+#btn-toggle-cols:hover {
+  background:#218838;
+}
+
+
+.tabla-volantes {
+  width: 100%;
+  border-collapse: collapse;  
+  margin-bottom: 20px;
+  table-layout: fixed; 
+}
+
+
+.tabla-volantes th,
+.tabla-volantes td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.tabla-volantes thead th {
+  background-color: #004085;  /* azul oscuro */
+  color: #ffffff;             /* blanco */
+  font-weight: bold;
+  padding: 12px 10px;
+  border: 1px solid #ccc;     
+  text-align: left;
+}
+
+.tabla-volantes tbody td {
+  background-color: #fafafa;  
+  color: #333333;             
+  padding: 10px;
+  border: 1px solid #ccc;     
+  text-align: left;
+}
+
+
+.tabla-volantes tbody tr:hover td {
+  background-color: #e3f2fd;  
+}
+
+
+.tabla-volantes td,
+.tabla-volantes th {
+  border-right: 1px solid #ddd;
+}
+.tabla-volantes td:last-child,
+.tabla-volantes th:last-child {
+  border-right: none;
+}
+
+
+.tabla-volantes thead th {
+  border-bottom: 3px solid #002960;
+}
+
+
+
+.volver {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.volver a {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.volver a:hover {
+    background: linear-gradient(135deg, #5a6268, #23272b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.volver.volver-arriba {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  text-align: left;       
+}
+
+
+
+.custom-search {
+  text-align: right;
+  margin-bottom: 20px;     
+}
+
+.custom-search input[type="search"] {
+  width: 300px;            
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #007bff;
+  border-radius: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+.custom-search input::placeholder {
+  color: #888;
+}
+
+
+.custom-search input[type="search"]:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 4px rgba(0, 86, 179, 0.4);
+}
+
+
+.container {
+  overflow-x: auto;
+}
+
+.tabla-volantes {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed;    /* layout fijo */
+}
+
+.tabla-volantes th,
+.tabla-volantes td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.tabla-volantes.expanded {
+  table-layout: auto;     /* layout automático */
+}
+.tabla-volantes.expanded th,
+.tabla-volantes.expanded td {
+  white-space: normal;    /* permitir salto de línea */
+}
+
+.mensaje-flash {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 10px;
+  margin: 20px 0;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/* recorta y evita solapamientos */
+.tabla-volantes {
+  table-layout: fixed;
+}
+
+
+.tabla-volantes.expanded {
+  table-layout: auto;
+}
+.tabla-volantes.expanded th,
+.tabla-volantes.expanded td {
+  white-space: normal;        /* permite salto de línea */
+  overflow: visible;          /* muestra todo el contenido */
+}
+
+
+.container {
+  overflow-x: auto;
+}
+
+.logout-button, .gestion-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.logout-button:hover, .gestion-button:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
+}
+
+.excel-button {
+  background-color: #217346; 
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(33, 115, 70, 0.2);
+}
+
+.excel-button:hover {
+  background-color: #1e5e3d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(33, 115, 70, 0.3);
+}
+
+.tooltip-volante {
+  position: relative;
+}
+
+.tooltip-info {
+  visibility: hidden;
+  width: 260px;
+  background-color: #ffffff;
+  color: #333;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-size: 13px;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-volante:hover .tooltip-info {
+  visibility: visible;
+}
+
+
+

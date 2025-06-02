@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registros pendientes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+</head>
+<body>
+  <header style="position:absolute; top:10px; left:10px;">
+    <a href="{{ url_for('auth.logout') }}" class="logout-link">Cerrar sesión</a>
+  </header>
+
+  <div class="auth-container">
+    <h1>Registros pendientes</h1>
+
+    {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        <div class="mensaje-flash">
+          {% for msg in mensajes %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.role }}</td>
+          <td>
+            <form method="POST" action="{{ url_for('volantes.aprobar_usuario', id=u.id) }}" style="display:inline;">
+              <button type="submit">✔️ Confirmar</button>
+            </form>
+            <form method="POST" action="{{ url_for('volantes.cancelar_usuario', id=u.id) }}" style="display:inline;">
+              <button type="submit" onclick="return confirm('¿Cancelar registro de {{ u.username }}?');">🗑️ Cancelar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.gestion_usuarios') }}">⬅ Volver a gestión de usuarios</a>
+    </div>
+  </div>
+</body>
+</html>

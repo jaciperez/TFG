@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GammaDoc</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+            <div class="volver">
+                <a href="/">⬅ Volver al menú</a>    
+            </div>
+
+        </div>
+        
+        <form method="POST"
+            action="{% if modo=='editar' %}
+                        {{ url_for('volantes.editar_volante', id=volante.id) }}
+                    {% else %}
+                        {{ url_for('volantes.guardar_volante') }}
+                    {% endif %}">
+
+
+            <h2>MEDICINA NUCLEAR</h2>
+            <br>
+            <hr>
+            
+            <div class="section">
+                <h3>EVALUACIÓN</h3>
+                <div class="column">
+                    <label for="citado">Citado por:</label>
+                    <input type="text" id="citado" name="Citado_por"
+                        value="{{ volante.Citado_por if modo=='editar' else '' }}">
+                </div>
+                <hr>
+                <div class="column">
+                    <label for="historia">Número de Historia:</label>
+                        <input type="text" id="historia" name="num_historia"
+                            value="{{ volante.num_historia if modo=='editar' else '' }}" required>
+                        <span id="historia-error" style="color: red; font-size: 13px;"></span>
+                </div>
+                <hr>
+                <div class="section row">
+                    <div class="column">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" name="Fecha"
+                            value="{% if modo=='editar' and volante.Fecha %}{{ volante.Fecha.isoformat() }}{% endif %}">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label for="hora">Hora:</label>
+                        <input type="time" id="hora" name="Hora"
+                            value="{% if modo=='editar' and volante.Hora %}{{ volante.Hora }}{% endif %}"> 
+                    </div>
+                    <br>        
+                            
+                    <div class="column">
+                        <label for="paciente">Hab:</label>
+                        <input type="text" id="paciente" name="Habitacion"
+                            value="{{ volante.Habitacion if modo=='editar' else '' }}">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label for="paciente2">Ext:</label>
+                        <input type="text" id="paciente2" name="Extension"
+                            value="{{ volante.Extension if modo=='editar' else '' }}">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label for="paciente3">Enfermera:</label>
+                        <input type="text" id="paciente3" name="Enfermera"
+                            value="{{ volante.Enfermera if modo=='editar' else '' }}">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label for="paciente4">Nº</label>
+                        <input type="text" id="paciente4" name="Numero"
+                            value="{{ volante.Numero if modo=='editar' else '' }}">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label for="paciente1">BOX</label>
+                        <input type="text" id="paciente1" name="BOX"
+                            value="{{ volante.BOX if modo=='editar' else '' }}">
+                    </div>
+                    
+                </div>
+                <div class="section">
+                    <label for="historia">Historia Clínica:</label>
+                    <textarea id="historia" rows="3"></textarea><br>
+                </div>
+                
+                <div class="section">
+                    <input type="checkbox" id="dieta"> Dieta ENDOCARDITIS  
+                    <input type="checkbox" id="adelantar"> *Adelantar si se puede:<br><br>
+                </div>  
+
+                <hr>
+                <div class="section">
+                    <label><b>Antecedentes Personales:</b></label><br>
+                    <input type="checkbox" id="diabetes" name="Diabetes"{% if modo=='editar' and volante.Diabetes %}checked{% endif %}> <label for="diabetes">Diabetes</label>
+                    <input type="checkbox" id="renal" name="Renal"{% if modo=='editar' and volante.Renal %}checked{% endif %}> <label for="renal">I. Renal</label>
+                    <input type="checkbox" id="alergia_yodo" name="Alergia_yodo" {% if modo=='editar' and volante.Alergia_yodo %}checked{% endif %}> <label for="alergia_yodo">Alergias al yodo</label>
+                    <input type="checkbox" id="cardiopata" name="Cardiopata" {% if modo=='editar' and volante.Cardiopata %}checked{% endif %}> <label for="cardiopata">Cardiópata</label>
+                    <br>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="alergias"> <label for="alergias">Alergias</label>
+                    </div>
+                    <label for="TipoAlergia">Tipo de Alergia:</label>
+                    <input type="text" id="TipoAlergia">
+                    <input type="text" id="otrasEnfermedades" placeholder="Otras enfermedades relevantes"><br><br>
+                </div>
+
+                
+
+                <!--Medicación actual-->
+                <div class="section">
+                    <label><b>Medicación acual:</b></label><br>
+                    <input type="checkbox" id="insulina" name="Insulina" {% if modo=='editar' and volante.Insulina %}checked{% endif %}> <label for="insulina">Insulina</label>
+                    <input type="checkbox" id="ADO" name="ADO" {% if modo=='editar' and volante.ADO %}checked{% endif %}> <label for="ADO">ADO</label>
+                    <input type="checkbox" id="antibioticos" name="Antibioticos" {% if modo=='editar' and volante.Antibioticos %}checked{% endif %}> <label for="antibioticos">Antibióticos</label>
+                    <input type="checkbox" id="corticoides" name="Corticoides" {% if modo=='editar' and volante.Corticoides %}checked{% endif %}> <label for="corticoides">Corticoides</label><br><br>
+                </div>
+
+                <!--Exploracion-->
+                <div class="section">
+                    <label><b>Motivo de exploración:</b></label><br>
+                    <input type="checkbox" id="Estadificación" name="Estadificacion" {% if modo=='editar' and volante.Estadificacion %}checked{% endif %}> <label for="Estadificación">Estadificación</label>
+                    <input type="checkbox" id="Respuesta a tto" name="Respuesta_a_tto" {% if modo=='editar' and volante.Respuesta_a_tto %}checked{% endif %}> <label for="Respuesta a tto">Respuesta a tto</label>
+                    <input type="checkbox" id="Control evolutivo" name="Control_evolutivo" {% if modo=='editar' and volante.Control_evolutivo %}checked{% endif %}> <label for="Control evolutivo">Control evolutivo</label>
+                    <input type="checkbox" id="TOD" name="TOD" {% if modo=='editar' and volante.TOD %}checked{% endif %}> <label for="TOD">TOD</label>
+                </div>
+
+                <!--Exploracionpt2-->
+                <div class="section">
+                    <input type="checkbox" id="Planificación RT" name="Planificacion_RT" {% if modo=='editar' and volante.Planificacion_RT %}checked{% endif %}> <label for="Planificación RT">Planificacion RT</label>
+                    <input type="checkbox" id="Re-estadificación" name="Re_Estadistificacion" {% if modo=='editar' and volante.Re_Estadistificacion %}checked{% endif %}> <label for="Re-estadificación">Re-estadificación</label>
+                    <input type="checkbox" id="Sospecha recidiva" name="Sospecha_Recidiva" {% if modo=='editar' and volante.Sospecha_Recidiva %}checked{% endif %}> <label for="Sospecha recidiva">Sospecha recidiva</label>
+                    <input type="checkbox" id="Sospecha infección" name="Sospecha_Infeccion" {% if modo=='editar' and volante.Sospecha_Infeccion %}checked{% endif %}> <label for="Sospecha infección">Sospecha infección</label><br><br>
+                </div>
+
+
+            <!-- Estudios previos -->
+            <div class="section row">
+                <label><b>Estudios previos:</b></label><br>
+                <div class="section">
+                    <label for="PET">PET:</label>
+                    <input type="date" id="PET" name="PET"  
+                        value="{% if modo=='editar' and volante.PET %}{{ volante.PET.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="TC">TC:</label>
+                    <input type="date" id="TC" name="TC"
+                        value="{% if modo=='editar' and volante.TC %}{{ volante.TC.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="RMN">RMN:</label>
+                    <input type="date" id="RMN" name="RMN"
+                        value="{% if modo=='editar' and volante.RMN %}{{ volante.RMN.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="otro4">Otro:</label>
+                    <input type="date" id="otro4" name="Otro4"
+                        value="{% if modo=='editar' and volante.Otro4 %}{{ volante.Otro4.isoformat() }}{% endif %}">
+                </div>
+            </div>
+            <br>
+
+            <!-- Final del tratamiento previo -->
+            <div class="section row">
+                <label><b>Final del tratamiento <br>previo:</b></label>
+                <div class="section">
+                    <label for="Cirugía">Cirugía:</label>
+                    <input type="date" id="Cirugía" name="Cirugia"
+                        value="{% if modo=='editar' and volante.Cirugia %}{{ volante.Cirugia.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="RadioT">RadioT:</label>
+                    <input type="date" id="RadioT" name="RadioT"
+                        value="{% if modo=='editar' and volante.RadioT %}{{ volante.RadioT.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="QuimioT">QuimioT:</label>
+                    <input type="date" id="QuimioT" name="QuimioT"
+                        value="{% if modo=='editar' and volante.QuimioT %}{{ volante.QuimioT.isoformat() }}{% endif %}">
+                </div>
+
+                <div class="section">
+                    <label for="InmunoT">InmunoT:</label>
+                    <input type="date" id="InmunoT" name="InmunoT"
+                        value="{% if modo=='editar' and volante.InmunoT %}{{ volante.InmunoT.isoformat() }}{% endif %}">
+                </div>
+                <div class="section">
+                    <label for="Otro:">Otro:</label>
+                    <input type="date" id="Otro" name="Otro"
+                        value="{% if modo=='editar' and volante.Otro %}{{ volante.Otro.isoformat() }}{% endif %}">
+                </div>
+            </div>
+        </div>    
+            <hr>
+            <!--Rafiofármaco-->
+            <div class="section">
+                <h3>RADIOFÁRMACO</h3>
+                <input type="checkbox" id="fdg" name="F_FDG" {% if modo=='editar' and volante.F_FDG %}checked{% endif %}> <label for="fdg">F-FDG</label>
+                <input type="checkbox" id="colina" name="F_Colina" {% if modo=='editar' and volante.F_Colina %}checked{% endif %}> <label for="colina">F Colina</label>
+                <input type="checkbox" id="fdopa" name="F_FDOPA" {% if modo=='editar' and volante.F_FDOPA %}checked{% endif %}> <label for="fdopa">F-FDOPA</label><br>
+                <input type="checkbox" id="psma" name="F_PSMA" {% if modo=='editar' and volante.F_PSMA %}checked{% endif %}> <label for="psma">F-PSMA</label>
+                <input type="checkbox" id="amiloide" name="Amiloide" {% if modo=='editar' and volante.Amiloide %}checked{% endif %}> <label for="amiloide">Amiloide</label>
+                <input type="checkbox" id="dotatoc" name="Ga_DOTATOC" {% if modo=='editar' and volante.Ga_DOTATOC %}checked{% endif %}> <label for="dotatoc">Ga-DOTATOC</label><br>
+            </div>
+            <hr>
+            <!--Tecnicos-->
+
+            <div class="section">
+                <h3>TÉCNICOS</h3>
+                    <label><b>Gated:</b></label><br>
+                    <input type="checkbox" id="respiratorio"> <label for="respiratorio">Respiratorio</label>
+                    <input type="checkbox" id="cardiaco"> <label for="cardiaco">Cardiaco</label><br><br>
+                    <input type="checkbox" id="planificacion1"> <label for="planificacion1">Planificación</label>
+                    <input type="checkbox" id="earl"> <label for="earl">EARL</label><br><br>
+            </div>
+            
+            <!--Contraste-->
+            <div class="section">
+                <label><b>Contraste:</b></label><br>
+                <input type="checkbox" id="intravenoso"> <label for="intravenoso">Intravenoso (</label>
+                <input type="checkbox" id="cyc1"> <label for="cyc1">C y C</label>
+                <input type="checkbox" id="torax"> <label for="torax">Torax</label>
+                <input type="checkbox" id="portal"> <label for="portal">Portal</label>
+                <input type="checkbox" id="vascular"> <label for="vascular">Vascular)</label><br>
+                <input type="checkbox" id="otro2_checkbox"> <label for="otro2_texto">Otro: </label><input type= "text" id= "otro2_texto"><br>
+                <input type="checkbox" id="oral"> <label for="oral">Oral</label><br><br>
+            </div>
+
+            <!--Protocolo-->
+            <div class="section">
+                <label><b>Protocolo:</b></label><br>
+                <input type="checkbox" id="rutina"> <label for="rutina">Rutina</label>
+                <input type="checkbox" id="rutinaCraneo"> <label for="rutinaCraneo">Rutina + Craneo</label>
+                <input type="checkbox" id="entero"> <label for="entero">C. Entero</label>
+                <input type="checkbox" id="cyc"> <label for="cyc">C y C</label><br>
+                <input type="checkbox" id="neuro"> <label for="neuro">Neuro</label>
+                <input type="checkbox" id="endocarditis"> <label for="endocarditis">Endocarditis</label>
+                <input type="checkbox" id="colinaPrecoz"> <label for="colinaPrecoz">Colina Precoz</label>
+                <input type="checkbox" id="colinaTardia"> <label for="colinaTardia">Colina Tardía R + C</label><br>
+                <input type="checkbox" id="paratiroides"> <label for="paratiroides">Paratiroides</label>
+                <input type="checkbox" id="y90"> <label for="y90">Y-90</label>
+                <input type="checkbox" id="lu177"> <label for="lu177">Lu-177</label>
+                <input type="checkbox" id="eess"> <label for="eess">EESS abajo</label><br><br>
+            </div>
+
+            <label><b>Hora de adquisición </b></label>
+            <div class="section row">
+                <div class="column">
+                    <label for="inicio">Inicio:</label>
+                    <input type="time" id="inicio">
+                </div>
+                
+                <div class="column">
+                    <label for="final">Final:</label>
+                    <input type="time" id="final">
+                </div>
+            </div><br>
+
+            <label><b>Tardía: </b></label><br>
+            <div class="section row">
+            <div class="column">
+                    <input type= "text" id= "tardia">
+            </div>  
+            <br>  
+                <div class="column">
+                    <label for="inicio1">Inicio:</label>
+                    <input type="time" id="inicio1">
+                </div>
+                
+                <div class="column">
+                    <label for="final1">Final:</label>
+                    <input type="time" id="final1">
+                </div>
+            
+            </div><br>
+
+            <!--
+            <div class="column">
+                <label><b>OBSERVACIONES: </b></label>
+                <label><b>Vacuna COVID/GRIPE</b></label>
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha">
+                <label><b>MSI</b></label>
+                <label><b>MSD</b></label>
+                <label><b>Traumatismos: </b></label><input type= "text" id= "traumatismo">
+            </div>   
+            -->
+            <hr>
+            <!-- Sección de Enfermería -->
+            <div class="section">
+                <h3>ENFERMERÍA</h3>
+                <div class="row">
+                    <div class="column">
+                        <label for="peso">Peso (kg):</label>
+                        <input type="number" id="peso">
+                    </div>
+                    <div class="column">
+                        <label for="altura">Altura (cm):</label>
+                        <input type="number" id="altura">
+                    </div>
+                    <br>
+                    <div class="column">
+                        <label><b>Test de Embarazo:</b></label>
+                        <div>
+                            <input type="checkbox" id="test_positivo">
+                            <label for="test_positivo">Positivo</label>
+                            <br>
+                            <input type="checkbox" id="test_negativo">
+                            <label for="test_negativo">Negativo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                            
+        
+                
+                <div class="section row">
+                    <input type="checkbox" id="contraste_checkbox">
+                    <div class="column">
+                        <label for="contraste_texto">C. Informado de contraste:</label><input type="text" id="contraste_texto">
+                    </div>
+                    <input type="checkbox" id="fur_checkbox">
+                    <div class="column">
+                        <label for="fur_texto">FUR:</label><input type= "date" id= "fur_texto">
+                    </div>
+                </div>
+                <br>
+                <div class="section row">
+                    <div class="column">
+                        <label for="glucemia pre-inyeccion">Glucemia Pre-Inyeccion:</label>
+                        <input type="text" id="glucemia pre-inyeccion">
+                    </div>
+                    
+                    <div class="column">
+                        <label for="hora1">Hora:</label>
+                        <input type="time" id="hora1">
+                    </div>
+                </div>
+                <br>
+                <div class="checkbox-row">
+                    <div class="checkbox">
+                        <input type="checkbox" id="actrapid">
+                        <label for="actrapid">Actrapid</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="lorazepan">
+                        <label for="lorazepan">Lorazepan/Diazepan</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="suero">
+                        <label for="suero">Suero</label>
+                    </div>
+                    
+                    <br>
+                    <br>
+                    
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="otro_checkbox">  
+                    <label for="otro_texto">Otro: </label><input type="text" id="otro_texto">
+                </div>  
+                <br>
+                <div class="column">
+                    <label for="dosis">DOSIS:</label>
+                    <input type="text" id="dosis">
+                </div>
+                <br>
+                <br>
+                <div class="checkbox-row">
+                    <label><b>Lugar de inyección:</b></label><br>
+                    <div class="checkbox">
+                        <input type="checkbox" id="izquierda">
+                        <label for="izquierda">IZQUIERDA </label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="derecha">
+                        <label for="derecha">DERECHA</label>
+                    </div><br>
+                </div>
+
+                <br>
+                <div class="checkbox-row">
+                    <div class="checkbox">
+                        <input type="checkbox" id="antecubital">
+                        <label for="antecubital">Antecubital</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="antebrazo">
+                        <label for="antebrazo">Antebrazo</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="mano">
+                        <label for="mano">Suero</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="pie">
+                        <label for="pie">Pie</label>
+                    </div>
+                <br>
+                
+                    
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="otro3_checkbox">     
+                    <label for="otro3_texto">Otro: </label><input type="text" id="otro3_texto">
+                </div>
+                <br>
+                    
+                
+                            
+                
+                <br>
+                <div class="checkbox-row">
+                    <label><b>Incidencia:</b></label><br>
+                    <div class="checkbox">
+                        <input type="checkbox" id="radiofarmaco">
+                        <label for="radiofarmaco">RADIOFARMACO    / </label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="checkbox" id="contraste1">
+                        <label for="contraste1">CONTRASTE</label>
+                    </div>
+
+                    <div class="checkbox">
+                        <input type="checkbox" id="administrado_checkbox">
+                        <label for="administrado_texto">No administrado (motivo): </label><input type= "text" id= "administrado_texto">
+                    </div>
+                </div>  
+            </div>
+            <br>
+                            
+            <div class="section row">
+                <div class="checkbox">
+                    <input type="checkbox" id="extravasacion">
+                    <label for="extravasacion">Extravasación</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="reaccion">
+                    <label for="reaccion">Reacción Alérgica</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="intrarterial">
+                    <label for="intrarterial">Intrarterial</label>
+                </div><br>
+                <div class="checkbox">
+                    <input type="checkbox" id="malestar">
+                    <label for="malestar">Malestar General</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="sincope">
+                    <label for="sincope">Síncope</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="otro1_checkbox">
+                    <label for="otro1_texto">Otro: </label><input type= "text" id= "otro1_texto">
+                </div>
+            </div>   
+
+            <br>
+            
+            <hr>
+            <div class="column">
+                <label for="GuardarArchivo"><b><i>Guardar archivo como: </i></b></label>
+                <input type="text" id="GuardarArchivo">
+            </div>
+            
+            <br>
+            <!-- BOTÓN SOLO PARA GENERAR PDF -->
+            <button type="button" onclick="generarPDF()">Exportar a PDF</button> 
+
+            <!-- BOTÓN PARA GUARDAR SOLO EN BASE DE DATOS -->
+            <button type="submit">Guardar en base de datos</button>
+
+            <!-- BOTÓN PARA VOLVER AL MENU PRINCIPAL -->
+            <div class="volver">
+                <a href="/">⬅ Volver al menú</a>
+            </div>
+        </form>
+    </div>
+
+    
+</body>
+</html>

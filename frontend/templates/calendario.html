@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario PET</title>
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/calendario.css') }}">
+
+  <!-- FullCalendar CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css">
+</head>
+<body>
+  <div class="menu-container">
+    <!-- Botones superiores -->
+    <div class="top-right-buttons">
+      <a class="gestion-button" href="{{ url_for('volantes.gestion_usuarios') }}">👥 Gestión de usuarios</a>
+      <a class="logout-button" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+    </div>
+
+    <h1>Calendario de Citas PET</h1>
+
+    <!-- Contenedor del calendario -->
+    <div id="calendar" style="width: 100%; max-width: 900px; margin: auto;"></div>
+
+    <!-- Botón volver -->
+    <div class="volver" style="margin-top: 40px;">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
+
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+
+  <!-- Script de calendario -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const eventos = JSON.parse('{{ eventos|tojson|safe }}');
+
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        height: 'auto',
+        events: Object.entries(eventos).flatMap(([fecha, nombres]) => {
+          return nombres.map(nombre => ({
+            title: nombre,
+            start: fecha,
+            allDay: true
+          }));
+        })
+      });
+
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
+

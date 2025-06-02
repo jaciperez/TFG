@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de usuarios</title>
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+</head>
+<body>
+
+
+  <div class="auth-container">
+    <h1>Gestión de usuarios</h1>
+    <div class="top-right-buttons" style="text-align:right; margin-bottom:15px;">
+      <a href="{{ url_for('volantes.ver_pendientes') }}" class="pendientes-button">🕒 Registros pendientes</a>
+    </div>
+
+
+    {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        <div class="mensaje-flash">
+          {% for msg in mensajes %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.role }}</td>
+          <td>
+            <a href="{{ url_for('volantes.editar_usuario', id=u.id) }}">
+              <button title="Editar usuario">✏️</button>
+            </a>
+            <form method="POST"
+                  action="{{ url_for('volantes.delete_user', id=u.id) }}"
+                  style="display:inline;">
+              <button type="submit"
+                      onclick="return confirm('¿Eliminar usuario {{ u.username }}?');">
+                🗑️
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
+</body>
+</html>

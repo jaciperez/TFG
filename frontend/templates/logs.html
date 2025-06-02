@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de actividad</title>
+  <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='styles/logs.css') }}"
+  >
+<body>
+  <h1>📋 Registro de actividad</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Acción</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.usuario.username }}</td>
+        <td>{{ log.accion }}</td>
+        <td>{{ log.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="volver">
+    <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+  </div>
+</body>
+</html>

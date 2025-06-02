@@ -1,0 +1,16 @@
+#tooltip-panel {
+  position: fixed;
+  display: none;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 9999;
+  max-width: 260px;
+  white-space: normal;
+  pointer-events: none;
+}
+

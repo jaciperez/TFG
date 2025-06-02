@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dar de alta paciente</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <h1>🩺 Alta de paciente</h1>
+
+    <form method="POST">
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" required>
+
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" name="apellidos" required>
+
+      <label for="num_historia">Nº Historia:</label>
+      <input type="text" name="num_historia" required>
+
+      <button type="submit">Registrar paciente</button>
+    </form>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
+</body>
+</html>

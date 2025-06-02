@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar usuario</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <h1>Editar usuario</h1>
+
+    <form method="POST">
+      <label for="username">Usuario:</label>
+      <input type="text" name="username" value="{{ user.username }}" required>
+
+      <label for="email">Email:</label>
+      <input type="email" name="email" value="{{ user.email }}" required>
+
+      <label for="role">Rol:</label>
+      <select name="role" required>
+        <option value="facultativo" {% if user.role == 'facultativo' %}selected{% endif %}>Facultativo</option>
+        <option value="enfermero" {% if user.role == 'enfermero' %}selected{% endif %}>Enfermero</option>
+        <option value="tecnico" {% if user.role == 'tecnico' %}selected{% endif %}>Técnico</option>
+        <option value="administrador" {% if user.role == 'administrador' %}selected{% endif %}>Administrador</option>
+      </select>
+
+      <label for="password">Nueva contraseña:</label>
+      <input type="password" name="password" placeholder="Deja en blanco para no cambiarla">
+
+      <button type="submit">Guardar cambios</button>
+    </form>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.gestion_usuarios') }}">⬅ Volver a gestión de usuarios</a>
+    </div>
+  </div>
+</body>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+
+</html>

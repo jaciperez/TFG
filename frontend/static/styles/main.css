@@ -1,0 +1,132 @@
+#otro2_texto,
+#otro_texto,
+#otro3_texto,
+#dosis,
+#GuardarArchivo,
+#otro1_texto,
+#administrado_texto {
+    width: 300px;
+    max-width: 100%;
+}
+
+#GuardarArchivo {
+    background-color: rgba(200, 245, 200, 0.4); 
+    border: 1px solid rgba(150, 220, 150, 0.6); 
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+#GuardarArchivo:focus {
+    background-color: rgba(200, 245, 200, 1); 
+    border-color: rgba(150, 220, 150, 1); 
+    outline: none;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    border: 1px solid black;
+    padding: 20px;
+    position: relative;
+    background-color: rgba(227, 242, 253, 0.4); 
+    border-radius: 20px;
+}
+
+h2 {
+    font-family: -apple-system, BlinkMacSystemFont; 
+    text-align: center;
+}
+
+.section h3 {
+    border: 1px solid #BDBDBD;
+    padding: 6px;
+    display: block;
+    border-radius: 8px;
+    background-color: #ECECEC;
+    color: #000;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+    background-color: #E3F2FD;
+    border: 1px solid #B3E5FC;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    background-color: #BBDEFB;
+    border-color: #64B5F6;
+}
+
+button {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+input[type="checkbox"] {
+    margin: 1;
+    width: auto;
+}
+
+label {
+    margin: 0;
+}
+.volver a {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.volver a:hover {
+    background: linear-gradient(135deg, #5a6268, #23272b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

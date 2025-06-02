@@ -1,0 +1,65 @@
+.auth-container {
+  max-width: 800px;
+  margin: 80px auto 40px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+table th {
+  background: #007bff;
+  color: white;
+}
+
+.volver {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.volver a {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6c757d, #343a40);
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.volver a:hover {
+    background: linear-gradient(135deg, #5a6268, #23272b);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.pendientes-button {
+  background-color: #fd7e14; /* naranja */
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(253, 126, 20, 0.2);
+  display: inline-block;
+}
+
+.pendientes-button:hover {
+  background-color: #e8590c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(253, 126, 20, 0.3);
+}

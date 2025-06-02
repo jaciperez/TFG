@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menú principal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
+</head>
+<body>
+  <div class="menu-container">
+
+    
+    <div class="top-right-buttons">
+      {% if user.role == 'administrador' %}
+        <a class="gestion-button" href="{{ url_for('volantes.gestion_usuarios') }}">👥 Gestión de usuarios</a>
+        <a class="logs-button" href="{{ url_for('volantes.ver_logs') }}">📄 Registro de actividad</a>
+      {% endif %}
+      <a class="logout-button" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+    </div>
+
+
+    {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        <div class="mensaje-flash">
+          {% for m in mensajes %}<p>{{ m }}</p>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h1>Bienvenido a GammaDoc{% if user %} – {{ user.username }}{% endif %}</h1>
+
+    <div class="menu-secciones">
+      <div class="menu-col">
+        <h2 class="menu-titulo">-- Crear --</h2>
+        <a href="{{ url_for('volantes.nuevo_volante') }}">
+          <button class="menu-button">✚ Crear volante PET</button>
+        </a>
+        <a href="{{ url_for('volantes.alta_paciente') }}">
+          <button class="menu-button">🩺 Dar de alta paciente</button>
+        </a>
+      </div>
+
+      <div class="menu-col">
+        <h2 class="menu-titulo">-- Consultas --</h2>
+        <a href="{{ url_for('volantes.bandeja') }}">
+          <button class="menu-button">📥 Bandeja</button>
+        </a>
+        <a href="{{ url_for('volantes.calendario') }}">
+          <button class="menu-button">🗓️ Calendario</button>
+        </a>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script src="{{ url_for('static', filename='scripts/mensajesFlash.js') }}"></script>
+</body>
+</html>
+
+
+
