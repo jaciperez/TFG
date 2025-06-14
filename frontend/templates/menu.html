@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Menú principal</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
 </head>
 <body>
   <div class="menu-container">
@@ -25,12 +27,12 @@
         </div>
       {% endif %}
     {% endwith %}
-
+    
     <h1>Bienvenido a GammaDoc{% if user %} – {{ user.username }}{% endif %}</h1>
 
     <div class="menu-secciones">
       <div class="menu-col">
-        <h2 class="menu-titulo">-- Crear --</h2>
+        <h2 class="menu-titulo">CREAR </h2>
         <a href="{{ url_for('volantes.nuevo_volante') }}">
           <button class="menu-button">✚ Crear volante PET</button>
         </a>
@@ -40,7 +42,7 @@
       </div>
 
       <div class="menu-col">
-        <h2 class="menu-titulo">-- Consultas --</h2>
+        <h2 class="menu-titulo">CONSULTAS</h2>
         <a href="{{ url_for('volantes.bandeja') }}">
           <button class="menu-button">📥 Bandeja</button>
         </a>

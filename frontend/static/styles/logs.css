@@ -1,15 +1,20 @@
 body {
     font-family: Arial, sans-serif;
     padding: 40px;
-    background: #f4f4f4;
+    background: #f0fafa;;
 }
 h1 {
-    text-align: center;
-    color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #004080;
+  font-weight: 350;
 }
 table {
-    width: 100%;
+    
     border-collapse: collapse;
+    width: 80%;
+    max-width: 900px;
+    margin: 20px auto;
     background: white;
     margin-top: 20px;
 }
@@ -31,4 +36,46 @@ th {
     border-radius: 8px;
     color: white;
     text-decoration: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  font-size: 15px;
+  background-color: white;
+}
+
+table thead th {
+  background-color: #3498db;
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+}
+
+table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table th:first-child,
+table td:first-child {
+  border-top-left-radius: 10px;
+}
+
+table th:last-child,
+table td:last-child {
+  border-top-right-radius: 10px;
 }

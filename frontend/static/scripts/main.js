@@ -577,15 +577,17 @@ function generarPDF() {
         doc.save(nombreFinal + ".pdf");
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
   const historiaInput = document.getElementById('historia');
   const errorSpan = document.getElementById('historia-error');
+  const nombreSpan = document.getElementById('paciente-nombre');
 
   historiaInput.addEventListener('input', function () {
-    const valor = historiaInput.value;
+    const valor = historiaInput.value.trim();
 
-    if (valor.trim() === '') {
+    if (valor === '') {
       errorSpan.textContent = '';
+      nombreSpan.textContent = '';
       return;
     }
 
@@ -594,12 +596,15 @@ function generarPDF() {
       .then(data => {
         if (!data.existe) {
           errorSpan.textContent = '❌ No existe ningún paciente con ese número de historia';
+          nombreSpan.textContent = '';
         } else {
           errorSpan.textContent = '';
+          nombreSpan.textContent = `👤 ${data.nombre} ${data.apellidos}`;
         }
       })
-      .catch(error => {
+      .catch(() => {
         errorSpan.textContent = 'Error al verificar número de historia';
+        nombreSpan.textContent = '';
       });
   });
 });

@@ -6,6 +6,7 @@
 
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/calendario.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
 
   <!-- FullCalendar CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css">
@@ -17,8 +18,14 @@
       <a class="gestion-button" href="{{ url_for('volantes.gestion_usuarios') }}">👥 Gestión de usuarios</a>
       <a class="logout-button" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
     </div>
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back">⬅</a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+    </div>
 
-    <h1>Calendario de Citas PET</h1>
+    <br>
+    <h1>CALENDARIO DE CITAS PET</h1>
+    
 
     <!-- Contenedor del calendario -->
     <div id="calendar" style="width: 100%; max-width: 900px; margin: auto;"></div>

@@ -24,13 +24,19 @@
     rel="stylesheet" 
     href="{{ url_for('static', filename='styles/panelBandeja.css') }}"
   >
+  <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='styles/botonesBack.css') }}"
+  >
 </head>
 <body>
 
-  <div class="volver-arriba">
-    <a href="/">⬅ Volver al menú</a>
+  <div class="nav-buttons">
+    <a href="javascript:history.back()" class="btn-back">⬅  </a>
+    <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
   </div>
-  <h1>Bandeja de Volantes</h1>
+
+  <h1>BANDEJA DE VOLANTES</h1>
 
   {% with mensajes = get_flashed_messages() %}
     {% if mensajes %}
@@ -48,111 +54,118 @@
   <div class="toggle-columns-container">
     <button id="btn-toggle-cols">Ver más…</button>
   </div>
+  <div style="overflow-x: auto; width: 100%;">
+    <table id="tabla-volantes" class="tabla-volantes display nowrap">
+      <thead>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Nº Historia</th>
+          <th>Citado por</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Habitación</th>
+          <th>Ext</th>
+          <th>Enfermera</th>
+          <th>Nº</th>
+          <th>BOX</th>
+          <th>Diabetes</th>
+          <th>Renal</th>
+          <th>Alergia yodo</th>
+          <th>Cardiopata</th>
+          <th>Insulina</th>
+          <th>ADO</th>
+          <th>Antibióticos</th>
+          <th>Corticoides</th>
+          <th>Estadificación</th>
+          <th>Respuesta a tto</th>
+          <th>Control evolutivo</th>
+          <th>TOD</th>
+          <th>Planificación RT</th>
+          <th>Re-Estadificación</th>
+          <th>Sospecha Recidiva</th>
+          <th>Sospecha Infección</th>
+          <th>PET</th>
+          <th>TC</th>
+          <th>RMN</th>
+          <th>Otro4</th>
+          <th>Cirugía</th>
+          <th>RadioT</th>
+          <th>QuimioT</th>
+          <th>InmunoT</th>
+          <th>Otro</th>
+          <th>F-FDG</th>
+          <th>F-Colina</th>
+          <th>F-FDOPA</th>
+          <th>F-PSMA</th>
+          <th>Amiloide</th>
+          <th>Ga-DOTATOC</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in volantes %}
+        <tr class="volante-row"
+            data-creador="{{ v.creador.username if v.creador else 'Desconocido' }}"
+            data-creado="{{ v.fecha_creacion.strftime('%d/%m/%Y %H:%M') if v.fecha_creacion else '' }}"
+            data-editor="{{ v.editor.username if v.editor else 'Sin cambios' }}"
+            data-editado="{{ v.fecha_edicion.strftime('%d/%m/%Y %H:%M') if v.fecha_edicion else '' }}">
+          <td>
+            <a href="{{ url_for('volantes.editar_volante', id=v.id) }}" class="editar-button">Editar</a>
 
-  <table id="tabla-volantes" class="tabla-volantes display">
-    <thead>
-      <tr>
-        <th>Editar</th>
-        <th>ID</th>
-        <th>Nº Historia</th>
-        <th>Citado por</th>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Habitación</th>
-        <th>Ext</th>
-        <th>Enfermera</th>
-        <th>Nº</th>
-        <th>BOX</th>
-        <th>Diabetes</th>
-        <th>Renal</th>
-        <th>Alergia yodo</th>
-        <th>Cardiopata</th>
-        <th>Insulina</th>
-        <th>ADO</th>
-        <th>Antibióticos</th>
-        <th>Corticoides</th>
-        <th>Estadificación</th>
-        <th>Respuesta a tto</th>
-        <th>Control evolutivo</th>
-        <th>TOD</th>
-        <th>Planificación RT</th>
-        <th>Re-Estadificación</th>
-        <th>Sospecha Recidiva</th>
-        <th>Sospecha Infección</th>
-        <th>PET</th>
-        <th>TC</th>
-        <th>RMN</th>
-        <th>Otro4</th>
-        <th>Cirugía</th>
-        <th>RadioT</th>
-        <th>QuimioT</th>
-        <th>InmunoT</th>
-        <th>Otro</th>
-        <th>F-FDG</th>
-        <th>F-Colina</th>
-        <th>F-FDOPA</th>
-        <th>F-PSMA</th>
-        <th>Amiloide</th>
-        <th>Ga-DOTATOC</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for v in volantes %}
-      <tr class="volante-row"
-          data-creador="{{ v.creador.username if v.creador else 'Desconocido' }}"
-          data-creado="{{ v.fecha_creacion.strftime('%d/%m/%Y %H:%M') if v.fecha_creacion else '' }}"
-          data-editor="{{ v.editor.username if v.editor else 'Sin cambios' }}"
-          data-editado="{{ v.fecha_edicion.strftime('%d/%m/%Y %H:%M') if v.fecha_edicion else '' }}">
-        <td>
-          <a href="{{ url_for('volantes.editar_volante', id=v.id) }}">
-            <button>✎ Editar</button>
-          </a>
-        </td>
-        <td>{{ v.id }}</td>
-        <td>{{ v.num_historia }}</td>
-        <td>{{ v.Citado_por }}</td>
-        <td>{{ v.Fecha }}</td>
-        <td>{{ v.Hora }}</td>
-        <td>{{ v.Habitacion }}</td>
-        <td>{{ v.Extension }}</td>
-        <td>{{ v.Enfermera }}</td>
-        <td>{{ v.Numero }}</td>
-        <td>{{ v.BOX }}</td>
-        <td>{{ 'Sí' if v.Diabetes else 'No' }}</td>
-        <td>{{ 'Sí' if v.Renal else 'No' }}</td>
-        <td>{{ 'Sí' if v.Alergia_yodo else 'No' }}</td>
-        <td>{{ 'Sí' if v.Cardiopata else 'No' }}</td>
-        <td>{{ 'Sí' if v.Insulina else 'No' }}</td>
-        <td>{{ 'Sí' if v.ADO else 'No' }}</td>
-        <td>{{ 'Sí' if v.Antibioticos else 'No' }}</td>
-        <td>{{ 'Sí' if v.Corticoides else 'No' }}</td>
-        <td>{{ 'Sí' if v.Estadificacion else 'No' }}</td>
-        <td>{{ 'Sí' if v.Respuesta_a_tto else 'No' }}</td>
-        <td>{{ 'Sí' if v.Control_evolutivo else 'No' }}</td>
-        <td>{{ 'Sí' if v.TOD else 'No' }}</td>
-        <td>{{ 'Sí' if v.Planificacion_RT else 'No' }}</td>
-        <td>{{ 'Sí' if v.Re_Estadistificacion else 'No' }}</td>
-        <td>{{ 'Sí' if v.Sospecha_Recidiva else 'No' }}</td>
-        <td>{{ 'Sí' if v.Sospecha_Infeccion else 'No' }}</td>
-        <td>{{ v.PET }}</td>
-        <td>{{ v.TC }}</td>
-        <td>{{ v.RMN }}</td>
-        <td>{{ v.Otro4 }}</td>
-        <td>{{ v.Cirugia }}</td>
-        <td>{{ v.RadioT }}</td>
-        <td>{{ v.QuimioT }}</td>
-        <td>{{ v.InmunoT }}</td>
-        <td>{{ v.Otro }}</td>
-        <td>{{ 'Sí' if v.F_FDG else 'No' }}</td>
-        <td>{{ 'Sí' if v.F_Colina else 'No' }}</td>
-        <td>{{ 'Sí' if v.F_FDOPA else 'No' }}</td>
-        <td>{{ 'Sí' if v.F_PSMA else 'No' }}</td>
-        <td>{{ 'Sí' if v.Amiloide else 'No' }}</td>
-        <td>{{ 'Sí' if v.Ga_DOTATOC else 'No' }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+            <form method="POST" action="{{ url_for('volantes.eliminar_volante', id=v.id) }}" style="display:inline;" onsubmit="return confirm('¿Seguro que quieres eliminar este volante?');">
+              <button class="eliminar-button">Eliminar</button>
+            </form>
+
+          </td>
+
+          <td>{{ v.id }}</td>
+          <td>{{ v.num_historia }}</td>
+          <td>{{ v.Citado_por }}</td>
+          <td>{{ v.Fecha }}</td>
+          <td>{{ v.Hora }}</td>
+          <td>{{ v.Habitacion }}</td>
+          <td>{{ v.Extension }}</td>
+          <td>{{ v.Enfermera }}</td>
+          <td>{{ v.Numero }}</td>
+          <td>{{ v.BOX }}</td>
+          <td>{{ 'Sí' if v.Diabetes else 'No' }}</td>
+          <td>{{ 'Sí' if v.Renal else 'No' }}</td>
+          <td>{{ 'Sí' if v.Alergia_yodo else 'No' }}</td>
+          <td>{{ 'Sí' if v.Cardiopata else 'No' }}</td>
+          <td>{{ 'Sí' if v.Insulina else 'No' }}</td>
+          <td>{{ 'Sí' if v.ADO else 'No' }}</td>
+          <td>{{ 'Sí' if v.Antibioticos else 'No' }}</td>
+          <td>{{ 'Sí' if v.Corticoides else 'No' }}</td>
+          <td>{{ 'Sí' if v.Estadificacion else 'No' }}</td>
+          <td>{{ 'Sí' if v.Respuesta_a_tto else 'No' }}</td>
+          <td>{{ 'Sí' if v.Control_evolutivo else 'No' }}</td>
+          <td>{{ 'Sí' if v.TOD else 'No' }}</td>
+          <td>{{ 'Sí' if v.Planificacion_RT else 'No' }}</td>
+          <td>{{ 'Sí' if v.Re_Estadistificacion else 'No' }}</td>
+          <td>{{ 'Sí' if v.Sospecha_Recidiva else 'No' }}</td>
+          <td>{{ 'Sí' if v.Sospecha_Infeccion else 'No' }}</td>
+          <td>{{ v.PET }}</td>
+          <td>{{ v.TC }}</td>
+          <td>{{ v.RMN }}</td>
+          <td>{{ v.Otro4 }}</td>
+          <td>{{ v.Cirugia }}</td>
+          <td>{{ v.RadioT }}</td>
+          <td>{{ v.QuimioT }}</td>
+          <td>{{ v.InmunoT }}</td>
+          <td>{{ v.Otro }}</td>
+          <td>{{ 'Sí' if v.F_FDG else 'No' }}</td>
+          <td>{{ 'Sí' if v.F_Colina else 'No' }}</td>
+          <td>{{ 'Sí' if v.F_FDOPA else 'No' }}</td>
+          <td>{{ 'Sí' if v.F_PSMA else 'No' }}</td>
+          <td>{{ 'Sí' if v.Amiloide else 'No' }}</td>
+          <td>{{ 'Sí' if v.Ga_DOTATOC else 'No' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   <!-- Modal de Búsqueda Avanzada -->
   <div id="adv-search-modal" class="modal">
     <div class="modal-content">
@@ -234,6 +247,7 @@
   </div>
 
   <div id="tooltip-panel"></div>
+  <a href="{{ url_for('volantes.nuevo_volante') }}" class="btn-flotante">➕</a>
 
   <div class="volver">
     <a href="/">⬅ Volver al menú</a>
@@ -248,5 +262,7 @@
   <script src="{{ url_for('static', filename='scripts/bandeja.js') }}"></script>
   <script src="{{ url_for('static', filename='scripts/botonBusqueda.js') }}"></script>
   <script src="{{ url_for('static', filename='scripts/panelBandeja.js') }}"></script>
+  <script src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+
 </body>
 </html>

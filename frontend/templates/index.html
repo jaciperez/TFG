@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GammaDoc</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
 </head>
 <body>
     <div class="container">
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
-            <div class="volver">
-                <a href="/">⬅ Volver al menú</a>    
+            <div class="nav-buttons">
+                <a href="javascript:history.back()" class="btn-back">⬅</a>
+                <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
             </div>
+
 
         </div>
         
@@ -39,10 +42,15 @@
                 <hr>
                 <div class="column">
                     <label for="historia">Número de Historia:</label>
-                        <input type="text" id="historia" name="num_historia"
+                    <input type="text" id="historia" name="num_historia"
                             value="{{ volante.num_historia if modo=='editar' else '' }}" required>
-                        <span id="historia-error" style="color: red; font-size: 13px;"></span>
+                    <span id="historia-error" style="color: red; font-size: 13px;"></span>
+
+                    <div class="paciente-info">
+                        <span id="paciente-nombre"></span>
+                    </div>
                 </div>
+
                 <hr>
                 <div class="section row">
                     <div class="column">
@@ -289,17 +297,7 @@
             
             </div><br>
 
-            <!--
-            <div class="column">
-                <label><b>OBSERVACIONES: </b></label>
-                <label><b>Vacuna COVID/GRIPE</b></label>
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha">
-                <label><b>MSI</b></label>
-                <label><b>MSD</b></label>
-                <label><b>Traumatismos: </b></label><input type= "text" id= "traumatismo">
-            </div>   
-            -->
+           
             <hr>
             <!-- Sección de Enfermería -->
             <div class="section">

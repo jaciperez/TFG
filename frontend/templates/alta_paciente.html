@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <title>Dar de alta paciente</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/alta_paciente.css') }}">
 </head>
 <body>
   <div class="auth-container">
+      <div class="nav-buttons">
+        <a href="javascript:history.back()" class="btn-back">⬅</a>
+        <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+      </div>
     <h1>🩺 Alta de paciente</h1>
 
     <form method="POST">

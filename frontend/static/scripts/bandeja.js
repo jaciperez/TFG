@@ -2,9 +2,8 @@ $(document).ready(function() {
   // Inicializa por primera y única vez
   const table = $('#tabla-volantes').DataTable({
     pageLength: 10,
-    responsive: true,
     autoWidth: false,
-    
+    scrollX: true,
     language: {
       search:     "🔎 Buscar:",
       lengthMenu: "Mostrar _MENU_ registros",

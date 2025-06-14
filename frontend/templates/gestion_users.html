@@ -3,18 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestión de usuarios</title>
-  <link rel="stylesheet"
-        href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+  <script src="{{ url_for('static', filename='scripts/mensajesFlash.js') }}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+
+  
 </head>
 <body>
 
-
   <div class="auth-container">
-    <h1>Gestión de usuarios</h1>
-    <div class="top-right-buttons" style="text-align:right; margin-bottom:15px;">
-      <a href="{{ url_for('volantes.ver_pendientes') }}" class="pendientes-button">🕒 Registros pendientes</a>
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back">⬅</a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
     </div>
+    <h1>Gestión de usuarios</h1>
+      
 
+    <div class="top-right-buttons" style="text-align:right; margin-bottom:15px;">
+      <a href="{{ url_for('volantes.ver_pendientes') }}" class="pendientes-button">   Registros pendientes</a>
+    </div>
 
     {% with mensajes = get_flashed_messages() %}
       {% if mensajes %}
@@ -25,7 +33,7 @@
         </div>
       {% endif %}
     {% endwith %}
-
+    
     <table>
       <thead>
         <tr>
@@ -33,6 +41,8 @@
           <th>Usuario</th>
           <th>Email</th>
           <th>Rol</th>
+          <th>Estado</th>
+          <th>Último acceso</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -43,19 +53,46 @@
           <td>{{ u.username }}</td>
           <td>{{ u.email }}</td>
           <td>{{ u.role }}</td>
+
+          <!-- Estado visual -->
           <td>
-            <a href="{{ url_for('volantes.editar_usuario', id=u.id) }}">
-              <button title="Editar usuario">✏️</button>
-            </a>
-            <form method="POST"
-                  action="{{ url_for('volantes.delete_user', id=u.id) }}"
-                  style="display:inline;">
-              <button type="submit"
-                      onclick="return confirm('¿Eliminar usuario {{ u.username }}?');">
-                🗑️
-              </button>
-            </form>
+            {% if u.activo %}
+              <span class="estado-activo">● Activo</span>
+            {% else %}
+              <span class="estado-inactivo">● Inactivo</span>
+            {% endif %}
           </td>
+
+          <!-- Último acceso -->
+          <td>
+            {% if u.ultimo_acceso %}
+              {{ u.ultimo_acceso.strftime('%d/%m/%Y %H:%M') }}
+            {% else %}
+              Nunca
+            {% endif %}
+          </td>
+
+          <!-- Acciones -->
+          <td>
+            <div class="boton-grupo">
+              <a href="{{ url_for('volantes.editar_usuario', id=u.id) }}">
+                <button class="boton-accion boton-editar" title="Editar usuario">Editar</button>
+              </a>
+
+              <form method="POST" action="{{ url_for('volantes.delete_user', id=u.id) }}">
+                <button type="submit" class="boton-accion boton-eliminar"
+                        onclick="return confirm('¿Eliminar usuario {{ u.username }}?');">Eliminar</button>
+              </form>
+
+              <form method="POST" action="{{ url_for('volantes.toggle_estado_usuario', id=u.id) }}">
+                <button type="submit" class="boton-accion boton-toggle"
+                        title="{{ 'Desactivar' if u.activo else 'Activar' }}">
+                  {{ 'Desactivar' if u.activo else 'Activar' }}
+                </button>
+              </form>
+            </div>
+          </td>
+
         </tr>
         {% endfor %}
       </tbody>

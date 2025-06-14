@@ -3,23 +3,25 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #f3f3f3;
+  background: #f0fafa;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .auth-container {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
 }
 
 .auth-container h1 {
   margin-bottom: 1.5rem;
   text-align: center;
+  color: #004080;
+  font-weight: 500;
 }
 
 .auth-container form > div {
@@ -29,33 +31,59 @@ body {
 .auth-container label {
   display: block;
   margin-bottom: 0.25rem;
-  font-weight: bold;
+  font-weight: 500;
+  color: #333;
 }
 
 .auth-container input,
 .auth-container select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.55rem;
+  border: 1px solid #ccd;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.auth-container input:focus,
+.auth-container select:focus {
+  border-color: #66b5e3;
+  outline: none;
+  box-shadow: 0 0 6px rgba(102, 181, 227, 0.3);
 }
 
 .auth-container button {
   width: 100%;
   padding: 0.75rem;
-  background: #007bff;
+  background: #5fa8d3;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s;
 }
 
 .auth-container button:hover {
-  background: #0056b3;
+  background: #3e91c1;
+  transform: translateY(-1px);
 }
 
 .auth-container p {
   text-align: center;
   margin-top: 1rem;
+  font-size: 14px;
+  color: #333;
 }
+
+.mensaje-flash {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+} 
