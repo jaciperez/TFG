@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estadísticas GammaDoc</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/estadisticas.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+</head>
+<body>
+    <div class="estadisticas-wrapper">
+        <div class="nav-buttons">
+            <a href="javascript:history.back()" class="btn-back">⬅</a>
+            <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+        </div>
+        <h1 class="estadisticas-titulo">📊 Estadísticas</h1>
+
+        <div class="grid-estadisticas">
+            <div class="chart-container">
+            <h3>Frecuencia de radiofármacos</h3>
+            <canvas id="graficoRadiofarmacos"></canvas>
+            </div>
+
+            <div class="chart-container">
+            <h3>Evolución mensual de volantes</h3>
+            <canvas id="graficoMensual"></canvas>
+            </div>
+
+            <div class="chart-container">
+            <h3>Distribución por motivo de exploración</h3>
+            <canvas id="graficoMotivos"></canvas>
+            </div>
+
+            <div class="chart-container">
+            <h3>Pacientes con condiciones clínicas</h3>
+            <canvas id="graficoCondiciones"></canvas>
+            </div>
+        </div>
+        <div class="volver" style="margin-top: 40px;">
+            <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+        </div>
+    </div>
+
+
+  <script>
+    
+    const datos = {{ datos | tojson | safe }};
+    
+
+    new Chart(document.getElementById("graficoRadiofarmacos"), {
+      type: 'bar',
+      data: {
+        labels: Object.keys(datos.radiofarmacos),
+        datasets: [{
+          label: 'Cantidad',
+          data: Object.values(datos.radiofarmacos),
+          backgroundColor: '#3498db'
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoMensual"), {
+      type: 'line',
+      data: {
+        labels: Object.keys(datos.mensual),
+        datasets: [{
+          label: 'Volantes por mes',
+          data: Object.values(datos.mensual),
+          borderColor: '#2ecc71',
+          fill: false
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoMotivos"), {
+      type: 'pie',
+      data: {
+        labels: Object.keys(datos.motivos),
+        datasets: [{
+          data: Object.values(datos.motivos),
+          backgroundColor: ['#e67e22', '#9b59b6', '#1abc9c', '#e74c3c']
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoCondiciones"), {
+      type: 'bar',
+      data: {
+        labels: Object.keys(datos.condiciones),
+        datasets: [{
+          label: 'Pacientes',
+          data: Object.values(datos.condiciones),
+          backgroundColor: '#95a5a6'
+        }]
+      }
+    });
+  </script>
+</body>
+</html>

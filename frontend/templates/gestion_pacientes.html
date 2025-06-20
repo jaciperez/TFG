@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de pacientes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_pacientes.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back">⬅</a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+    </div>
+    <h1>Gestión de pacientes</h1>
+
+    <table style="width:100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+          <th>Nº Historia</th>
+          <th>Total volantes</th>
+          {% if current_user.role == 'administrador' %}
+          <th>Acciones</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for paciente, total_volantes in pacientes %}
+        <tr>
+          <td>{{ paciente.nombre }}</td>
+          <td>{{ paciente.apellidos }}</td>
+          <td>{{ paciente.num_historia }}</td>
+          <td>{{ total_volantes }}</td> 
+          {% if current_user.role == 'administrador' %}
+          <td>
+            <form method="GET" action="{{ url_for('volantes.editar_paciente', id=paciente.id) }}" style="display:inline;">
+              <button type="submit" class="boton-accion boton-editar">Editar</button>
+            </form>
+            <form method="POST" action="{{ url_for('volantes.eliminar_paciente', id=paciente.id) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este paciente?');">
+              <button type="submit" class="boton-accion boton-eliminar">Eliminar</button>
+            </form>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="volver">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
+</body>
+</html>

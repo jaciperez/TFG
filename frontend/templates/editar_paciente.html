@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar paciente</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back">⬅</a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+    </div>
+    <h1>Editar paciente</h1>
+
+    <form method="POST">
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" value="{{ paciente.nombre }}" required>
+
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" name="apellidos" value="{{ paciente.apellidos }}" required>
+
+      <label for="num_historia">Número de historia clínica:</label>
+      <input type="text" name="num_historia" value="{{ paciente.num_historia }}" required>
+
+      <button type="submit">Guardar cambios</button>
+    </form>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Eliminar paciente</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <h1>Eliminar paciente</h1>
+
+    <p><strong>¿Estás seguro de que deseas eliminar a este paciente?</strong></p>
+    <p>Nombre: {{ paciente.nombre }} {{ paciente.apellidos }}</p>
+    <p>Número de historia: {{ paciente.num_historia }}</p>
+
+    <form method="POST">
+      <button type="submit">Sí, eliminar</button>
+    </form>
+
+    <div class="volver">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Cancelar y volver</a>
+    </div>
+  </div>
+</body>
+</html>
