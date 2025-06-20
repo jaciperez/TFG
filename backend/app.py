@@ -33,23 +33,13 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    # si no estás logueado, te lleva al login
     if not current_user.is_authenticated:
         return redirect(url_for('auth.login'))
-    # si ya iniciaste sesión, al menú de volantes
     return redirect(url_for('volantes.menu'))
 
-
-
-
-# Registramos blueprints
-app.register_blueprint(auth_bp,    url_prefix='/auth')
+# Blueprints
+app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(volantes_bp, url_prefix='/volante')
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
-
