@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://www.ubu.es/sites/default/files/logo_ubu.png" alt="Universidad de Burgos" width="200"/>
+  <img src="cabecera.png" alt="Universidad de Burgos" width="200"/>
 </p>
 
 # GammaDoc – Sistema de Gestión de Volantes PET
