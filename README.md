@@ -5,6 +5,12 @@
 # GammaDoc – Sistema de Gestión de Volantes PET
 GammaDoc es una aplicación web desarrollada en Flask que permite a facultativos, enfermeros, técnicos y administradores gestionar volantes médicos PET, pacientes y estadísticas de forma centralizada.
 
+## Sobre este proyecto
+Este software ha sido desarrollado como parte de un Trabajo Fin de Grado en Ingeniería de la Salud en colaboración con el **Servicio de Medicina Nuclear del Hospital Universitario de Burgos (HUBU)**.
+
+Desarrollado por Jacinto Pérez – Grado en Ingeniería de la Salud, Universidad de Burgos
+
+
 ## Funcionalidades principales:
 
 - Registro y login con roles (administrador, facultativo, enfermero, técnico)
@@ -40,7 +46,7 @@ docker run -d -p 5000:5000 gammdoc-app
 http://localhost:5000
 ```
 
-Usuario administrador inicial
+## Usuario administrador inicial
 Al iniciar por primera vez, se crea automáticamente un usuario administrador:
 
 Usuario: admin
