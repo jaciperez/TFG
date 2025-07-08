@@ -2,6 +2,8 @@ from database import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
 
 
 
@@ -16,11 +18,13 @@ class Volante(db.Model):
     
 
     # Evaluación
-    # Aquí debería poner algún campo relacionado con el paciente(nº historia, nombre y apellidos, etc) info mas concreta
     num_historia = db.Column(db.String(50), db.ForeignKey('paciente.num_historia'))
     Citado_por = db.Column(db.String(100))
     Fecha = db.Column(db.Date, nullable=True)
     Hora = db.Column(db.String(20))
+    Historia_Clinica = db.Column(db.String(500))
+    Dieta_ENDOCARDITIS = db.Column(db.Boolean, default=False)
+    Adelantar_si_se_puede = db.Column(db.Boolean, default=False)
     Habitacion = db.Column(db.String(50))
     Extension = db.Column(db.String(50))
     Enfermera = db.Column(db.String(100))
@@ -47,7 +51,7 @@ class Volante(db.Model):
 
     # Motivo de exploración pt2
     Planificacion_RT = db.Column(db.Boolean)
-    Re_Estadistificacion = db.Column(db.Boolean)
+    Re_Estadificacion = db.Column(db.Boolean)
     Sospecha_Recidiva = db.Column(db.Boolean)
     Sospecha_Infeccion = db.Column(db.Boolean)
 
@@ -72,7 +76,7 @@ class Volante(db.Model):
     Amiloide = db.Column(db.Boolean)
     Ga_DOTATOC = db.Column(db.Boolean)
 
-        # Técnicos
+    # Técnicos
     Respiratorio = db.Column(db.Boolean)
     Cardiaco = db.Column(db.Boolean)
     Planificacion = db.Column(db.Boolean)
@@ -143,7 +147,8 @@ class Volante(db.Model):
     Sincope = db.Column(db.Boolean)
     otro1_texto = db.Column(db.String(200))
 
-    
+    paciente = db.relationship('Paciente', backref='volantes', lazy=True)
+
 
 class User(UserMixin, db.Model):
     id       = db.Column(db.Integer, primary_key=True)
@@ -172,6 +177,8 @@ class LogActividad(db.Model):
 
 
 class Paciente(db.Model):
+    __tablename__ = 'paciente'
+
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     apellidos = db.Column(db.String(150), nullable=False)

@@ -5,6 +5,7 @@ from database import db
 from models import User
 from auth import auth_bp
 from volantes import volantes_bp
+from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,6 +27,22 @@ login_manager.login_view = 'auth.login'
 db.init_app(app)
 with app.app_context():
     db.create_all()
+    # Verificar si existe un administrador
+    existente = User.query.filter_by(email='admin@example.com').first()
+    if not existente:
+        admin = User(
+            username='admin',
+            email='admin@example.com',
+            role='administrador',
+            activo=True,
+            confirmado=True
+        )
+        admin.set_password('Admin123456.')
+        db.session.add(admin)
+        db.session.commit()
+        print("Usuario administrador creado automáticamente.")
+    else:
+        print("El administrador ya existe. No se crea de nuevo.")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -37,9 +54,15 @@ def index():
         return redirect(url_for('auth.login'))
     return redirect(url_for('volantes.menu'))
 
+@app.context_processor
+def inject_now():
+    return {'now': datetime.now}
+
 # Blueprints
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(volantes_bp, url_prefix='/volante')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
+
