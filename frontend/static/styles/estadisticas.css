@@ -1,0 +1,113 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f8fb;
+  margin: 0;
+  padding: 0;
+}
+
+
+.auth-container {
+  max-width: 950px;
+  margin: 80px auto 40px;
+  padding: 20px;
+  background: #f0fafa;
+  border-radius: 14px; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+
+h1 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #004080;
+  font-weight: 350;
+}
+
+
+.grid-estadisticas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 12px; 
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+
+.volver {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.volver a {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2f4f6f;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.volver a:hover {
+  background: #121d26;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+
+form {
+  margin-bottom: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+form label {
+  font-weight: 500;
+  margin-right: 4px;
+  color: #333;
+}
+
+
+form input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+form input[type="date"]:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+
+form button {
+  padding: 8px 16px;
+  background-color: #2f4f6f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover {
+  background-color: #121d26;
+  transform: translateY(-1px);
+}

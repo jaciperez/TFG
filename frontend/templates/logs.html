@@ -3,32 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Registro de actividad</title>
-  <link 
-    rel="stylesheet" 
-    href="{{ url_for('static', filename='styles/logs.css') }}"
-  >
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/logs.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <body>
-  <h1>REGISTRO DE ACTIVIDAD</h1>
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+            <div class="nav-buttons">
+                <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
+            </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Usuario</th>
-        <th>Acción</th>
-        <th>Fecha</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for log in logs %}
-      <tr>
-        <td>{{ log.usuario.username }}</td>
-        <td>{{ log.accion }}</td>
-        <td>{{ log.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 
+        </div>
+  <div class="auth-container">
+    <h1><i class="fa-solid fa-clipboard-list"style="margin-right:20px;"></i>REGISTRO DE ACTIVIDAD</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Acción</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+        <tr>
+          <td>{{ log.usuario.username }}</td>
+          <td>{{ log.accion }}</td>
+          <td>{{ log.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
   <div class="volver">
     <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
   </div>

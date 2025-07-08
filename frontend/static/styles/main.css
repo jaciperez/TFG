@@ -112,23 +112,106 @@ input[type="checkbox"] {
 label {
     margin: 0;
 }
+.volver {
+  text-align: center;
+  margin-top: 30px;
+}
+
 .volver a {
-    display: inline-block;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #6c757d, #343a40);
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2f4f6f; 
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .volver a:hover {
-    background: linear-gradient(135deg, #5a6268, #23272b);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: #121d26; 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 
+.mensaje-flash {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.historia-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.historia-group input {
+  width: 130px;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.paciente-card {
+  background: #f7f7f7;
+  border-left: 5px solid #3e91c1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 220px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.alta-btn-container {
+  margin-left: auto;
+}
+
+.btn-alta {
+  display: inline-block;
+  background-color: #117a8b;
+  color: white;
+  padding: 8px 14px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-alta:hover {
+  background-color: #17a2b8;
+}
+
+.historia-textarea {
+  width: 400px;         
+  max-width: 100%;      
+  min-height: 80px;     
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: none;         
+  box-sizing: border-box;
+}

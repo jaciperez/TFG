@@ -1,20 +1,22 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background: #f0fafa;;
-    margin: 0;
-    padding: 40px 20px;
+  font-family: 'Roboto', sans-serif;
+  background: #f0fafa;
+  margin: 0;
+  padding: 40px 20px;
 }
 
+
 .container {
-    max-width: 1500px;
-    font-family: 'Roboto', sans-serif;
-    margin: 0 auto;
-    background-color: white;
-    position: relative;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 1500px;
+  margin: 0 auto;
+  background-color: white;
+  position: relative;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow-x: auto;
 }
+
 
 h1 {
   margin-bottom: 1.5rem;
@@ -24,22 +26,22 @@ h1 {
 }
 
 
-
-.toggle-columns-container {
-  text-align:right;
-  margin-bottom:12px;
+.btn-flotante {
+  padding: 10px 20px;
+  font-size: 14px;
+  background: #b89cd9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
 }
-#btn-toggle-cols {
-  background:#28a745;
-  color:#fff;
-  border:none;
-  padding:6px 14px;
-  border-radius:4px;
-  cursor:pointer;
-  transition:background .2s;
-}
-#btn-toggle-cols:hover {
-  background:#218838;
+.btn-flotante:hover {
+  background: #9a7fc1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
 }
 
 
@@ -49,145 +51,169 @@ h1 {
   overflow: hidden;
   border-collapse: collapse;  
   margin-bottom: 20px;
-  table-layout: fixed; 
+  table-layout: auto;
+  white-space: nowrap;
 }
-
-
 .tabla-volantes th,
 .tabla-volantes td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-
-.tabla-volantes thead th {
-  background-color: #004085;  
-  color: #ffffff;             
-  padding: 12px 10px;
-  border: 1px solid #ccc;     
-  text-align: left;
-}
-
-.tabla-volantes tbody td {
-  background-color: #fafafa;  
-  color: #333333;             
   padding: 10px;
-  border: 1px solid #ccc;     
+  border: 1px solid #ccc;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-
-.tabla-volantes tbody tr:hover td {
-  background-color: #e3f2fd;  
-}
-
-
-.tabla-volantes td,
-.tabla-volantes th {
-  border-right: 1px solid #ddd;
-}
-.tabla-volantes td:last-child,
-.tabla-volantes th:last-child {
-  border-right: none;
-}
-
-
 .tabla-volantes thead th {
-  border-bottom: 3px solid #002960;
+  background-color: #004085;
+  color: #ffffff;
+}
+.tabla-volantes tbody tr:hover td {
+  background-color: #e3f2fd;
 }
 
 
-
-.volver {
-    text-align: center;
-    margin-top: 30px;
+.editar-button {
+  background-color: #5fa8d3;
+  color: white;
+  padding: 4px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(64, 196, 196, 0.2);
+}
+.editar-button:hover {
+  background-color: #3e91c1;
+  transform: translateY(-1px);
+}
+.eliminar-button {
+  background-color: #e57373;
+  color: white;
+  padding: 4px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(229, 115, 115, 0.2);
+}
+.eliminar-button:hover {
+  background-color: #d06767;
+  transform: translateY(-1px);
 }
 
-.volver a {
-    display: inline-block;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #6c757d, #343a40);
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+
+.logout-button, .gestion-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
 }
-
-.volver a:hover {
-    background: linear-gradient(135deg, #5a6268, #23272b);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-
-
-.volver.volver-arriba {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  text-align: left;       
+.logout-button:hover, .gestion-button:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
 }
 
 
-
-.custom-search {
-  text-align: right;
-  margin-bottom: 20px;     
+.export-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.export-panel {
+  display: inline-block;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.export-panel h3 {
+  margin: 0 0 6px 0;
+  font-size: 1em;
+  font-weight: 500;
+  color: #333;
+}
+.export-panel form {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+.export-panel input[type="number"],
+.export-panel input[type="text"] {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.export-panel button,
+.export-panel a.excel-button {
+  background-color: #217346;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.85em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+.export-panel button:hover,
+.export-panel a.excel-button:hover {
+  background-color: #1e5e3d;
 }
 
-.custom-search input[type="search"] {
-  width: 300px;            
+
+.dataTables_filter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.dataTables_filter input[type="search"] {
+  width: 300px;
   max-width: 100%;
   padding: 8px 12px;
   border: 2px solid #007bff;
   border-radius: 6px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-
-
-.custom-search input::placeholder {
-  color: #888;
-}
-
-
-.custom-search input[type="search"]:focus {
+.dataTables_filter input[type="search"]:focus {
   outline: none;
   border-color: #0056b3;
   box-shadow: 0 0 4px rgba(0, 86, 179, 0.4);
 }
 
 
-.container {
-  overflow-x: auto;
+.toggle-columns-container {
+  text-align: right;
+  margin-bottom: 12px;
+}
+#btn-toggle-cols {
+  background: #229954;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#btn-toggle-cols:hover {
+  background: #196f3d;
 }
 
-.tabla-volantes {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed;    
-}
-
-.tabla-volantes th,
-.tabla-volantes td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-.tabla-volantes.expanded {
-  table-layout: auto;    
-}
-.tabla-volantes.expanded th,
-.tabla-volantes.expanded td {
-  white-space: normal;    
-}
 
 .mensaje-flash {
   background-color: #d4edda;
@@ -200,151 +226,23 @@ h1 {
 }
 
 
-.tabla-volantes {
-  table-layout: fixed;
+.volver {
+  text-align: center;
+  margin-top: 30px;
 }
-
-
-.tabla-volantes.expanded {
-  table-layout: auto;
-}
-.tabla-volantes.expanded th,
-.tabla-volantes.expanded td {
-  white-space: normal;        
-  overflow: visible;        
-}
-
-
-.container {
-  overflow-x: auto;
-}
-
-.logout-button, .gestion-button {
-    padding: 10px 20px;
-    font-size: 14px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-}
-
-.logout-button:hover, .gestion-button:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
-}
-
-.excel-button {
-  background-color: #217346; 
+.volver a {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2f4f6f;
   color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
   text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(33, 115, 70, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
-
-.excel-button:hover {
-  background-color: #1e5e3d;
+.volver a:hover {
+  background: #121d26;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(33, 115, 70, 0.3);
-}
-
-.tooltip-volante {
-  position: relative;
-}
-
-.tooltip-info {
-  visibility: hidden;
-  width: 260px;
-  background-color: #ffffff;
-  color: #333;
-  text-align: left;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 8px;
-  position: absolute;
-  z-index: 10;
-  top: 100%;
-  left: 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  font-size: 13px;
-  transition: opacity 0.3s ease;
-}
-
-.tooltip-volante:hover .tooltip-info {
-  visibility: visible;
-}
-
-
-.editar-button {
-  background-color: #40c4c4;
-  color: white;
-  padding: 4px 10px;
-  font-size: 13px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 2px 6px rgba(64, 196, 196, 0.2);
-}
-
-.editar-button:hover {
-  background-color: #32a5a5;
-  transform: translateY(-1px);
-}
-
-
-.eliminar-button {
-  background-color: #e57373; 
-  color: white;
-  padding: 4px 10px;
-  font-size: 13px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
-  box-shadow: 0 2px 6px rgba(229, 115, 115, 0.2);
-}
-
-.eliminar-button:hover {
-  background-color: #d75a5a;
-  transform: translateY(-1px);
-}
-
-.btn-flotante {
-  position: fixed;
-  bottom: 20px;
-  right: 40px;
-  background: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  padding: 14px 18px;
-  font-size: 24px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-  text-decoration: none;
-}
-.btn-flotante:hover {
-  background: #1976d2;
-}
-
-
-.tabla-volantes {
-  width: 100% !important;
-  white-space: nowrap;
-  table-layout: auto !important;
-}
-
-.dataTables_wrapper {
-  overflow-x: auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }

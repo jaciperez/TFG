@@ -16,6 +16,12 @@
         </div>
       {% endif %}
     {% endwith %}
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GammaDoc Logo" width="300">
+    </div>
+
+
     <h1>Iniciar sesión</h1>
     <form method="POST" action="{{ url_for('auth.login') }}">
       <div>

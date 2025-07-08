@@ -4,14 +4,18 @@
   <meta charset="UTF-8">
   <title>Registros pendientes</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_users.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header style="position:absolute; top:10px; left:10px;">
-    <a href="{{ url_for('auth.logout') }}" class="logout-link">Cerrar sesión</a>
-  </header>
+  
 
   <div class="auth-container">
-    <h1>Registros pendientes</h1>
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
+    </div>
+    <h1><i class="fa-solid fa-box-archive" style="margin-right:20px;"></i>Registros pendientes</h1>
 
     {% with mensajes = get_flashed_messages() %}
       {% if mensajes %}
@@ -42,10 +46,10 @@
           <td>{{ u.role }}</td>
           <td>
             <form method="POST" action="{{ url_for('volantes.aprobar_usuario', id=u.id) }}" style="display:inline;">
-              <button type="submit">✔️ Confirmar</button>
+              <button type="submit" class="boton-confirmar">Confirmar</button>
             </form>
             <form method="POST" action="{{ url_for('volantes.cancelar_usuario', id=u.id) }}" style="display:inline;">
-              <button type="submit" onclick="return confirm('¿Cancelar registro de {{ u.username }}?');">🗑️ Cancelar</button>
+              <button type="submit" class="boton-cancelar" onclick="return confirm('¿Cancelar registro de {{ u.username }}?');">Cancelar</button>
             </form>
           </td>
         </tr>

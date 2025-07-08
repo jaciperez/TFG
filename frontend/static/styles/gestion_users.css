@@ -1,3 +1,6 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
 .auth-container {
   max-width: 950px;
   margin: 80px auto 40px;
@@ -11,6 +14,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  background-color: white;
 }
 table th, table td {
   padding: 10px;
@@ -23,30 +27,31 @@ table th {
 }
 
 .volver {
-    text-align: center;
-    margin-top: 30px;
+  text-align: center;
+  margin-top: 30px;
 }
 
 .volver a {
-    display: inline-block;
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #6c757d, #343a40);
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2f4f6f; 
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .volver a:hover {
-    background: linear-gradient(135deg, #5a6268, #23272b);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: #121d26; 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
 .pendientes-button {
-  background-color: #7bb8a4; 
+  background-color: #6c88b0; /* Azul acero */
   color: white;
   padding: 10px 20px;
   font-size: 14px;
@@ -54,15 +59,17 @@ table th {
   border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 3px 6px rgba(108, 136, 176, 0.2);
 }
 
 .pendientes-button:hover {
-  background-color: #69a493;
+  background-color: #57739a;
   transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 14px rgba(108, 136, 176, 0.3);
 }
+
+
 .mensaje-flash {
   background-color: #d4edda;
   color: #155724;
@@ -108,30 +115,19 @@ table th {
 }
 
 .boton-eliminar {
-  background-color: #888;
+  background-color: #e57373;
   color: white;
 }
 .boton-eliminar:hover {
-  background-color: #666;
+  background-color: #d06767;
 }
 
 .boton-toggle {
-  background-color: #7fcba0;
-  color: black;
+  background-color: #7f8c8d;
+  color: white;
 }
 .boton-toggle:hover {
-  background-color: #65b388;
-}
-
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  font-size: 15px;
-  background-color: white;
+  background-color: #636e72;
 }
 
 table thead th {
@@ -183,3 +179,94 @@ h1 {
   font-weight: 500;
   letter-spacing: 0.5px;
 }
+
+.boton-confirmar {
+  background-color: #4caf6f; 
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+.boton-confirmar:hover {
+  background-color: #3e9a60;
+  transform: translateY(-1px);
+}
+
+.boton-cancelar {
+  background-color: #d9534f; 
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+.boton-cancelar:hover {
+  background-color: #c9302c;
+  transform: translateY(-1px);
+}
+
+.buscador-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;  
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.buscador-form input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.buscador-form input[type="text"]:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+.buscador-form button {
+  background-color: #2f4f6f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.buscador-form button:hover {
+  background-color: #121d26;
+}
+
+.buscador-form a {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #e9ecef;
+  color: #333;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.buscador-form a:hover {
+  background-color: #d6d8db;
+  color: #000;
+  text-decoration: none;
+}
+

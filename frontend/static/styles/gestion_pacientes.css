@@ -1,3 +1,6 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
 .auth-container {
   max-width: 950px;
   margin: 80px auto 40px;
@@ -101,11 +104,11 @@ table td:last-child {
 }
 
 .boton-eliminar {
-  background-color: #888;
+  background-color: #e57373;
   color: white;
 }
 .boton-eliminar:hover {
-  background-color: #666;
+  background-color: #d06767;
 }
 
 .mensaje-flash {
@@ -128,3 +131,57 @@ h1 {
   color: #004080;
   font-weight: 350;
 }
+
+.buscador-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.buscador-form input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.buscador-form input[type="text"]:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+.buscador-form button {
+  background-color: #2f4f6f;  /* Azul intenso */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.buscador-form button:hover {
+  background-color: #121d26; /* Azul más oscuro al pasar el ratón */
+}
+
+.buscador-form a {
+  display: inline-block;
+  padding: 8px 14px;
+  background-color: #e9ecef;   /* Gris clarito */
+  color: #333;
+  border-radius: 8px;
+  text-decoration: none;       /* Sin subrayado */
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.buscador-form a:hover {
+  background-color: #121d26;
+  transform: translateY(-1px);     
+}
+

@@ -4,45 +4,62 @@
   <meta charset="UTF-8">
   <title>Gestión de pacientes</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_pacientes.css') }}">
-   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
-</head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <body>
   <div class="auth-container">
     <div class="nav-buttons">
-      <a href="javascript:history.back()" class="btn-back">⬅</a>
-      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+      <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
     </div>
     <h1>Gestión de pacientes</h1>
+    {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        <div class="mensaje-flash">
+          {% for m in mensajes %}
+            <p>{{ m }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+
+    <form method="GET" action="{{ url_for('volantes.gestion_pacientes') }}" class="buscador-form">
+      <input type="text" name="q" placeholder="Buscar paciente..." value="{{ q or '' }}">
+      <button type="submit">Buscar</button>
+      {% if q %}
+          <a href="{{ url_for('volantes.gestion_pacientes') }}">Limpiar</a>
+      {% endif %}
+    </form>
+
 
     <table style="width:100%; border-collapse: collapse;">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nombre</th>
           <th>Apellidos</th>
           <th>Nº Historia</th>
           <th>Total volantes</th>
-          {% if current_user.role == 'administrador' %}
           <th>Acciones</th>
-          {% endif %}
         </tr>
       </thead>
       <tbody>
         {% for paciente, total_volantes in pacientes %}
         <tr>
+          <td>{{ paciente.id }}</td>
           <td>{{ paciente.nombre }}</td>
           <td>{{ paciente.apellidos }}</td>
           <td>{{ paciente.num_historia }}</td>
           <td>{{ total_volantes }}</td> 
-          {% if current_user.role == 'administrador' %}
           <td>
             <form method="GET" action="{{ url_for('volantes.editar_paciente', id=paciente.id) }}" style="display:inline;">
-              <button type="submit" class="boton-accion boton-editar">Editar</button>
+              <button type="submit" class="boton-accion boton-editar"><i class="fa-solid fa-pen"style="margin-right:6px;"></i>Editar</button>
             </form>
             <form method="POST" action="{{ url_for('volantes.eliminar_paciente', id=paciente.id) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar este paciente?');">
-              <button type="submit" class="boton-accion boton-eliminar">Eliminar</button>
+              <button type="submit" class="boton-accion boton-eliminar"><i class="fa-solid fa-trash" style="margin-right:6px;"></i>Eliminar</button>
             </form>
           </td>
-          {% endif %}
         </tr>
         {% endfor %}
       </tbody>

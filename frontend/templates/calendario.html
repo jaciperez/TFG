@@ -4,64 +4,158 @@
   <meta charset="UTF-8">
   <title>Calendario PET</title>
 
-  <!-- Estilos personalizados -->
+
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/calendario.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- FullCalendar CSS -->
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css">
 </head>
 <body>
   <div class="menu-container">
-    <!-- Botones superiores -->
-    <div class="top-right-buttons">
-      <a class="gestion-button" href="{{ url_for('volantes.gestion_usuarios') }}">👥 Gestión de usuarios</a>
-      <a class="logout-button" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
-    </div>
     <div class="nav-buttons">
-      <a href="javascript:history.back()" class="btn-back">⬅</a>
-      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+      <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
     </div>
-
-    <br>
-    <h1>CALENDARIO DE CITAS PET</h1>
     
+    <h1><i class="fa-solid fa-calendar-days" style="margin-right:6px;"    ></i> Calendario de Citas</h1>
+    <br>
+    <div id="calendar"></div>
 
-    <!-- Contenedor del calendario -->
-    <div id="calendar" style="width: 100%; max-width: 900px; margin: auto;"></div>
-
-    <!-- Botón volver -->
     <div class="volver" style="margin-top: 40px;">
       <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
     </div>
   </div>
 
-  <!-- FullCalendar JS -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
-
-  <!-- Script de calendario -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const eventos = JSON.parse('{{ eventos|tojson|safe }}');
-
+    document.addEventListener('DOMContentLoaded', function () {
+      const datos = {{ eventos | tojson | safe }};
       const calendarEl = document.getElementById('calendar');
+
       const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
+        initialView: 'timeGridWeek',
         locale: 'es',
         height: 'auto',
-        events: Object.entries(eventos).flatMap(([fecha, nombres]) => {
-          return nombres.map(nombre => ({
-            title: nombre,
-            start: fecha,
-            allDay: true
-          }));
-        })
+        slotMinTime: "07:00:00",
+        slotMaxTime: "21:00:00",
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+        },
+        eventDisplay: 'block',
+        events: [],
+
+        eventContent: function(arg) {
+          const nhc = arg.event.title;
+          const hora = arg.event.start
+            ? arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+            : '--:--';
+
+          // Si es el bloque +n más
+          if (nhc.startsWith('+')) {
+            return { html: `<div style="text-align:center;color:white;"><b>${nhc}</b></div>` };
+          }
+
+          return {
+            html: `
+              <div style="background-color: ${arg.event.backgroundColor}; padding: 4px 6px; border-radius: 6px;">
+                <span style="color:black;"><strong>NHC:</strong></span>
+                <span style="color:white;"><strong>${nhc}</strong> (${hora})</span>
+              </div>
+            `
+          };
+        },
+
+        eventClick: function(info) {
+          const d = info.event.extendedProps;
+          const yaActivo = info.el.classList.contains('volante-activo');
+          document.querySelectorAll('.volante-detalle').forEach(e => e.remove());
+          document.querySelectorAll('.volante-activo').forEach(e => e.classList.remove('volante-activo'));
+
+          if (!d || !d.nombre || yaActivo) return;
+
+          const detalle = document.createElement('div');
+          detalle.className = 'volante-detalle';
+          detalle.innerHTML = `
+            <p><span class="label">Nombre:</span> ${d.nombre}</p>
+            <p><span class="label">Apellidos:</span> ${d.apellidos}</p>
+            <p><span class="label">Diabetes:</span> ${d.diabetes ? 'Sí' : 'No'}</p>
+          `;
+
+          const rect = info.el.getBoundingClientRect();
+          const top = rect.bottom + window.scrollY - 50;
+          const left = rect.left + window.scrollX;
+          detalle.style.position = 'absolute';
+          detalle.style.top = `${top}px`;
+          detalle.style.left = `${left}px`;
+          detalle.style.zIndex = '9999';
+
+          document.body.appendChild(detalle);
+          info.el.classList.add('volante-activo');
+        }
+      });
+
+      function cargarEventos(viewType) {
+        const eventos = [];
+
+        for (const [fecha, volantes] of Object.entries(datos)) {
+          const ordenados = volantes.sort((a, b) => (a.hora || '').localeCompare(b.hora || ''));
+
+          if (viewType === 'dayGridMonth') {
+            const primeros = ordenados.slice(0, 2);
+            primeros.forEach(v => {
+              const hora = v.hora && v.hora.length >= 4 ? v.hora.padStart(5, '0') : '08:00';
+              eventos.push({
+                title: v.num_historia,
+                start: `${fecha}T${hora}`,
+                color: v.color,
+                extendedProps: {
+                  nombre: v.nombre,
+                  apellidos: v.apellidos,
+                  diabetes: v.diabetes
+                }
+              });
+            });
+            const restantes = ordenados.length - 2;
+            if (restantes > 0) {
+              eventos.push({
+                title: `+${restantes} más`,
+                start: `${fecha}T12:00:00`,
+                color: '#6c757d'
+              });
+            }
+          } else {
+            ordenados.forEach(v => {
+              const hora = v.hora && v.hora.length >= 4 ? v.hora.padStart(5, '0') : '08:00';
+              eventos.push({
+                title: v.num_historia,
+                start: `${fecha}T${hora}`,
+                color: v.color,
+                extendedProps: {
+                  nombre: v.nombre,
+                  apellidos: v.apellidos,
+                  diabetes: v.diabetes
+                }
+              });
+            });
+          }
+        }
+
+        calendar.removeAllEvents();
+        calendar.addEventSource(eventos);
+      }
+
+      calendar.on('datesSet', function(info) {
+        cargarEventos(info.view.type);
       });
 
       calendar.render();
     });
   </script>
+
 </body>
 </html>
-

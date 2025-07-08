@@ -4,49 +4,68 @@
   <meta charset="UTF-8">
   <title>Estadísticas GammaDoc</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/estadisticas.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="estadisticas-wrapper">
-        <div class="nav-buttons">
-            <a href="javascript:history.back()" class="btn-back">⬅</a>
-            <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
-        </div>
-        <h1 class="estadisticas-titulo">📊 Estadísticas</h1>
+  
 
-        <div class="grid-estadisticas">
-            <div class="chart-container">
-            <h3>Frecuencia de radiofármacos</h3>
-            <canvas id="graficoRadiofarmacos"></canvas>
-            </div>
+  <div class="auth-container">
+    <div class="nav-buttons">
+    <a href="javascript:history.back()" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <a href="{{ url_for('volantes.menu') }}" class="btn-home">
+      <i class="fa-solid fa-house" style="margin-right:6px;"></i>Home
+    </a>
+  </div>
+    <h1>
+      <i class="fa-solid fa-chart-simple" style="margin-right:20px;"></i>Estadísticas
+    </h1>
+    <br>
+    <br>
+    <br>
+    <form method="get" style="margin-bottom: 30px; text-align: center;">
+      <label>Desde:</label>
+      <input type="date" name="desde" value="{{ desde or '' }}">
+      <label>Hasta:</label>
+      <input type="date" name="hasta" value="{{ hasta or '' }}">
+      <button type="submit">Filtrar</button>
+    </form>
 
-            <div class="chart-container">
-            <h3>Evolución mensual de volantes</h3>
-            <canvas id="graficoMensual"></canvas>
-            </div>
-
-            <div class="chart-container">
-            <h3>Distribución por motivo de exploración</h3>
-            <canvas id="graficoMotivos"></canvas>
-            </div>
-
-            <div class="chart-container">
-            <h3>Pacientes con condiciones clínicas</h3>
-            <canvas id="graficoCondiciones"></canvas>
-            </div>
-        </div>
-        <div class="volver" style="margin-top: 40px;">
-            <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
-        </div>
+    <div class="grid-estadisticas">
+      <div class="chart-container">
+        <h3>Frecuencia de radiofármacos</h3>
+        <canvas id="graficoRadiofarmacos"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Evolución mensual de volantes</h3>
+        <canvas id="graficoMensual"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Distribución por motivo de exploración</h3>
+        <canvas id="graficoMotivos"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Pacientes con condiciones clínicas</h3>
+        <canvas id="graficoCondiciones"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Volantes por día de la semana</h3>
+        <canvas id="graficoDiasSemana"></canvas>
+      </div>
     </div>
 
+    <div class="volver" style="margin-top: 40px;">
+      <a href="{{ url_for('volantes.menu') }}">⬅ Volver al menú</a>
+    </div>
+  </div>
 
   <script>
     
     const datos = {{ datos | tojson | safe }};
-    
+    const coloresMotivos = ['#e67e22', '#9b59b6', '#1abc9c', '#e74c3c', '#3498db', '#f39c12', '#2ecc71', '#8e44ad'];
 
     new Chart(document.getElementById("graficoRadiofarmacos"), {
       type: 'bar',
@@ -79,7 +98,7 @@
         labels: Object.keys(datos.motivos),
         datasets: [{
           data: Object.values(datos.motivos),
-          backgroundColor: ['#e67e22', '#9b59b6', '#1abc9c', '#e74c3c']
+          backgroundColor: coloresMotivos
         }]
       }
     });
@@ -92,6 +111,18 @@
           label: 'Pacientes',
           data: Object.values(datos.condiciones),
           backgroundColor: '#95a5a6'
+        }]
+      }
+    });
+
+    new Chart(document.getElementById("graficoDiasSemana"), {
+      type: 'bar',
+      data: {
+        labels: Object.keys(datos.dias_semana),
+        datasets: [{
+          label: 'Volantes',
+          data: Object.values(datos.dias_semana),
+          backgroundColor: '#f39c12'
         }]
       }
     });

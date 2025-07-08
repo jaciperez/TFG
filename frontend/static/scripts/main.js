@@ -3,10 +3,7 @@ function generarPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
-    // Imagen en Base64
 
-    
-    
     const checkboxSize = 3;
         const drawCheckbox = (x, y, checked) => {
             doc.rect(x, y, checkboxSize, checkboxSize);
@@ -45,7 +42,7 @@ function generarPDF() {
 
 
         // Encabezado
-        doc.setFont("Verdana", "bold");
+        doc.setFont("helvetica", "bold");
         //doc.line(70, 42, 76.5, 42);
         
         //doc.line(136, 42, 142.5, 42);
@@ -67,7 +64,7 @@ function generarPDF() {
         doc.text("Nº: " + document.getElementById("paciente4").value, 150, 60);
         doc.setFont("helvetica", "bold");
         doc.line(10, 69, 200, 69);
-        doc.text("HISTORIA CLÍNICA: " + document.getElementById("historia").value, 10, 72.5);
+        doc.text("HISTORIA CLÍNICA: " + document.getElementById("historia1").value, 10, 72.5);
         doc.setFont("helvetica", "normal");
         doc.line(10, 73, 42, 73);  // x1, y1, x2, y2
         let dietaChecked = document.getElementById("dieta").checked;
@@ -76,22 +73,14 @@ function generarPDF() {
         // Define el tamaño más pequeño del checkbox
         const boxSize = 2.5; // Tamaño pequeño del checkbox
 
-        // Dibuja los checkboxes y coloca "✓" si está marcado
-        doc.rect(145.5, 70.2, boxSize, boxSize);  // Dibuja el checkbox para dieta
-        if (dietaChecked) {
-            // Coloca "✓" centrado dentro del checkbox
-            doc.text("x", 146, 72.2);  // Ajusta la posición para centrar el "✓"
-        }
+        // Usa tu función drawCheckbox con coordenadas
+        drawCheckbox(145.5, 70.2, dietaChecked);
+        drawCheckbox(145.5, 76.8, adelantarChecked);
 
-        doc.rect(145.5, 76.8, boxSize, boxSize);  // Dibuja el checkbox para adelantar
-        if (adelantarChecked) {
-            // Coloca "✓" centrado dentro del checkbox
-            doc.text("x", 146, 78.8);  // Ajusta la posición para centrar el "✓"
-        }
-
-        // Agrega las etiquetas al lado de los checkboxes (más centrado)
-        doc.text("Dieta ENDOCARDITIS:", 153, 73);  
-        doc.text("Adelantar si se puede:", 153, 79);  
+        // Etiquetas
+        doc.text("Dieta ENDOCARDITIS:", 153, 73);
+        doc.text("Adelantar si se puede:", 153, 79);
+ 
 
 
 
@@ -102,7 +91,7 @@ function generarPDF() {
 
         doc.setLineWidth(0.2); // Grosor de la línea
         doc.setDrawColor(0, 0, 0); // Color negro
-        doc.setLineDashPattern([2, 2], 0); // Línea de 10px, espacio de 5px
+        doc.setLineDashPattern([2, 2], 0); 
         // Dibuja un cuadrado con líneas rayadas
         doc.rect(99, 82, 101.5, 56); // (x, y, ancho, alto)
         doc.setLineDashPattern([], 0);
@@ -467,7 +456,7 @@ function generarPDF() {
 
         // Contraste
         const intravenoso = document.getElementById("intravenoso").checked;
-        const cyc1 = document.getElementById("cyc1").checked;
+        const cyc = document.getElementById("cyc").checked;
         const torax = document.getElementById("torax").checked;
         const portal = document.getElementById("portal").checked;
         const vascular = document.getElementById("vascular").checked;
@@ -482,7 +471,7 @@ function generarPDF() {
         doc.text("Intravenoso (", 40, 237);
         drawCheckbox(36, 234, intravenoso);
         doc.text("C y C", 65, 237);
-        drawCheckbox(61, 234, cyc1);
+        drawCheckbox(61, 234, cyc);
         doc.text("Tórax", 81.5, 237);
         drawCheckbox(77.5, 234, torax);
         doc.text("Portal", 98, 237);
@@ -499,7 +488,7 @@ function generarPDF() {
         const rutina = document.getElementById("rutina").checked;
         const rutinaCraneo = document.getElementById("rutinaCraneo").checked;
         const entero = document.getElementById("entero").checked;
-        const cyc = document.getElementById("cyc").checked;
+        const cyc1 = document.getElementById("cyc1").checked;
         const neuro = document.getElementById("neuro").checked;
         const endocarditis = document.getElementById("endocarditis").checked;
         const colinaPrecoz = document.getElementById("colinaPrecoz").checked;
@@ -521,7 +510,7 @@ function generarPDF() {
         doc.text("C. Entero", 110, 243);
         drawCheckbox(106, 240, entero);
         doc.text("C y C", 138, 243);
-        drawCheckbox(134, 240, cyc);
+        drawCheckbox(134, 240, cyc1);
         doc.text("Neuro", 157, 243);
         drawCheckbox(153, 240, neuro);
         doc.text("Endocarditis", 178, 243);
@@ -577,34 +566,60 @@ function generarPDF() {
         doc.save(nombreFinal + ".pdf");
     }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const historiaInput = document.getElementById('historia');
-  const errorSpan = document.getElementById('historia-error');
-  const nombreSpan = document.getElementById('paciente-nombre');
+document.addEventListener("DOMContentLoaded", () => {
+  const historiaInput = document.getElementById("historia");
+  const errorSpan = document.getElementById("historia-error");
+  const nombreSpan = document.getElementById("paciente-nombre");
+  const volantesSpan = document.getElementById("volantes-pet");
+  const volante60Span = document.getElementById("volante-60dias");
 
-  historiaInput.addEventListener('input', function () {
-    const valor = historiaInput.value.trim();
+let timer;
 
-    if (valor === '') {
-      errorSpan.textContent = '';
-      nombreSpan.textContent = '';
-      return;
-    }
+  historiaInput.addEventListener("input", () => {
+    clearTimeout(timer);
 
-    fetch(`/volante/verificar_historia?valor=${encodeURIComponent(valor)}`)
-      .then(response => response.json())
-      .then(data => {
-        if (!data.existe) {
-          errorSpan.textContent = '❌ No existe ningún paciente con ese número de historia';
-          nombreSpan.textContent = '';
-        } else {
-          errorSpan.textContent = '';
-          nombreSpan.textContent = `👤 ${data.nombre} ${data.apellidos}`;
-        }
-      })
-      .catch(() => {
-        errorSpan.textContent = 'Error al verificar número de historia';
-        nombreSpan.textContent = '';
-      });
+    timer = setTimeout(() => {
+      const valor = historiaInput.value.trim();
+
+      if (valor === "") {
+        errorSpan.textContent = "";
+        nombreSpan.textContent = "";
+        volantesSpan.textContent = "";
+        volante60Span.textContent = "";
+        return;
+      }
+
+      // Paso 1: Verificar existencia
+      fetch(`${URL_VERIFICAR_HISTORIA}?valor=${encodeURIComponent(valor)}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!data.existe) {
+            errorSpan.textContent = "❌ No existe ningún paciente con ese número de historia";
+            nombreSpan.textContent = "";
+            volantesSpan.textContent = "";
+            volante60Span.textContent = "";
+            return;
+          }
+
+          errorSpan.textContent = "";
+          nombreSpan.textContent = ` ${data.nombre} ${data.apellidos}`;
+
+          // Paso 2: Obtener info adicional
+          return fetch(`${URL_DETALLE_HISTORIA}?num=${encodeURIComponent(valor)}`);
+        })
+        .then((r) => r?.json())
+        .then((info) => {
+          if (info) {
+            volantesSpan.textContent = `Volantes PET asociados: ${info.total}`;
+            volante60Span.textContent = `Volante hace 60 días: ${info.en60dias ? "Sí" : "No"}`;
+          }
+        })
+        .catch(() => {
+          errorSpan.textContent = "❌ Error de conexión";
+          volantesSpan.textContent = "";
+          volante60Span.textContent = "";
+        });
+    }, 500); // espera 500ms tras dejar de escribir
   });
+
 });

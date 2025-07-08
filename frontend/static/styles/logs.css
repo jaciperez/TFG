@@ -9,48 +9,50 @@ h1 {
   color: #004080;
   font-weight: 350;
 }
-table {
-    
-    border-collapse: collapse;
-    width: 80%;
-    max-width: 900px;
-    margin: 20px auto;
-    background: white;
-    margin-top: 20px;
-}
-th, td {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-th {
-    background: #007bff;
-    color: white;
-}
+
 .volver {
-    margin-top: 30px;
-    text-align: center;
+  text-align: center;
+  margin-top: 30px;
 }
+
 .volver a {
-    background: #6c757d;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: white;
-    text-decoration: none;
+  display: inline-block;
+  padding: 12px 24px;
+  background: #2f4f6f; 
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.volver a:hover {
+  background: #121d26; 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  font-size: 15px;
+  border-collapse: collapse;
+  margin-bottom: 20px;
   background-color: white;
+  width: 80%;
+  max-width: 900px;
+  margin: 20px auto;
 }
-
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+table th {
+  background: #007bff;
+  color: white;
+}
 table thead th {
-  background-color: #3498db;
+  background-color: #3498db; 
   color: white;
   text-align: left;
   padding: 12px;

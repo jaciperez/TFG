@@ -6,15 +6,30 @@
     <title>GammaDoc</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="{{ url_for('static', filename='scripts/main.js') }}" defer></script>
+    
 </head>
+<script>
+  const URL_VERIFICAR_HISTORIA = "{{ url_for('volantes.verificar_historia') }}";
+  const URL_DETALLE_HISTORIA = "{{ url_for('volantes.detalle_historia') }}";
+</script>
 <body>
     <div class="container">
+        {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+                <div class="mensaje-flash">
+                    {% for m in mensajes %}<p>{{ m }}</p>{% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
             <div class="nav-buttons">
-                <a href="javascript:history.back()" class="btn-back">⬅</a>
-                <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+                <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
             </div>
 
 
@@ -40,16 +55,27 @@
                         value="{{ volante.Citado_por if modo=='editar' else '' }}">
                 </div>
                 <hr>
-                <div class="column">
-                    <label for="historia">Número de Historia:</label>
-                    <input type="text" id="historia" name="num_historia"
-                            value="{{ volante.num_historia if modo=='editar' else '' }}" required>
-                    <span id="historia-error" style="color: red; font-size: 13px;"></span>
-
-                    <div class="paciente-info">
-                        <span id="paciente-nombre"></span>
-                    </div>
+                <div class="info-row">
+                <!-- Campo Nº Historia -->
+                <div class="historia-group">
+                    <label for="historia">Nº Historia:</label>
+                    <input type="text" id="historia" name="num_historia" value="{{ volante.num_historia if modo=='editar' else '' }}" required>
+                    <span id="historia-error" class="error-text"></span>
                 </div>
+
+                <!-- Recuadro de información del paciente -->
+                <div class="paciente-card">
+                    <strong>👤 Paciente:</strong> <span id="paciente-nombre">-</span><br>
+                    <span id="volantes-pet">Volantes totales: -</span><br>
+                    <span id="volante-60dias">¿Volante PET en últimos 60 días?: -</span>
+                </div>
+
+               
+                <a href="{{ url_for('volantes.alta_paciente') }}" class="btn-alta">➕ Alta nuevo paciente</a>
+                
+                </div>
+
+
 
                 <hr>
                 <div class="section row">
@@ -98,14 +124,17 @@
                     
                 </div>
                 <div class="section">
-                    <label for="historia">Historia Clínica:</label>
-                    <textarea id="historia" rows="3"></textarea><br>
+                    <label for="historia">Historia Clínica:</label><br>
+                    <textarea id="historia1" name="historia_clinica" rows="3" maxlength="500" class="historia-textarea">{{ volante.Historia_Clinica if modo == 'editar' else '' }}</textarea>
                 </div>
-                
+
                 <div class="section">
-                    <input type="checkbox" id="dieta"> Dieta ENDOCARDITIS  
-                    <input type="checkbox" id="adelantar"> *Adelantar si se puede:<br><br>
-                </div>  
+                    <input type="checkbox" id="dieta" name="dieta" {% if modo=='editar' and volante.Dieta_ENDOCARDITIS %}checked{% endif %}> Dieta ENDOCARDITIS  
+                    <input type="checkbox" id="adelantar" name="adelantar" {% if modo=='editar' and volante.Adelantar_si_se_puede %}checked{% endif %}>
+                    *Adelantar si se puede
+                    <br><br>
+                </div>
+
 
                 <hr>
                 <div class="section">
@@ -146,7 +175,7 @@
                 <!--Exploracionpt2-->
                 <div class="section">
                     <input type="checkbox" id="Planificación RT" name="Planificacion_RT" {% if modo=='editar' and volante.Planificacion_RT %}checked{% endif %}> <label for="Planificación RT">Planificacion RT</label>
-                    <input type="checkbox" id="Re-estadificación" name="Re_Estadistificacion" {% if modo=='editar' and volante.Re_Estadistificacion %}checked{% endif %}> <label for="Re-estadificación">Re-estadificación</label>
+                    <input type="checkbox" id="Re-estadificación" name="Re_Estadificacion" {% if modo=='editar' and volante.Re_Estadificacion %}checked{% endif %}> <label for="Re-estadificación">Re-estadificación</label>
                     <input type="checkbox" id="Sospecha recidiva" name="Sospecha_Recidiva" {% if modo=='editar' and volante.Sospecha_Recidiva %}checked{% endif %}> <label for="Sospecha recidiva">Sospecha recidiva</label>
                     <input type="checkbox" id="Sospecha infección" name="Sospecha_Infeccion" {% if modo=='editar' and volante.Sospecha_Infeccion %}checked{% endif %}> <label for="Sospecha infección">Sospecha infección</label><br><br>
                 </div>
@@ -231,51 +260,54 @@
             <div class="section">
                 <h3>TÉCNICOS</h3>
                     <label><b>Gated:</b></label><br>
-                    <input type="checkbox" id="respiratorio"> <label for="respiratorio">Respiratorio</label>
-                    <input type="checkbox" id="cardiaco"> <label for="cardiaco">Cardiaco</label><br><br>
-                    <input type="checkbox" id="planificacion1"> <label for="planificacion1">Planificación</label>
-                    <input type="checkbox" id="earl"> <label for="earl">EARL</label><br><br>
+                    <input type="checkbox" id="respiratorio" name="Respiratorio"{% if modo=='editar' and volante.Respiratorio %}checked{% endif %}> <label for="respiratorio">Respiratorio</label>
+                    <input type="checkbox" id="cardiaco" name="Cardiaco"{% if modo=='editar' and volante.Cardiaco %}checked{% endif %}> <label for="cardiaco">Cardiaco</label><br><br>
+                    <input type="checkbox" id="planificacion1" name="Planificacion" {% if modo=='editar' and volante.Planificacion %}checked{% endif %}> <label for="planificacion1">Planificación</label>
+                    <input type="checkbox" id="earl" name="EARL" {% if modo=='editar' and volante.EARL %}checked{% endif %}> <label for="earl">EARL</label><br><br>
             </div>
             
             <!--Contraste-->
             <div class="section">
                 <label><b>Contraste:</b></label><br>
-                <input type="checkbox" id="intravenoso"> <label for="intravenoso">Intravenoso (</label>
-                <input type="checkbox" id="cyc1"> <label for="cyc1">C y C</label>
-                <input type="checkbox" id="torax"> <label for="torax">Torax</label>
-                <input type="checkbox" id="portal"> <label for="portal">Portal</label>
-                <input type="checkbox" id="vascular"> <label for="vascular">Vascular)</label><br>
-                <input type="checkbox" id="otro2_checkbox"> <label for="otro2_texto">Otro: </label><input type= "text" id= "otro2_texto"><br>
-                <input type="checkbox" id="oral"> <label for="oral">Oral</label><br><br>
+                <input type="checkbox" id="intravenoso" name="Intravenoso" {% if modo=='editar' and volante.Intravenoso %}checked{% endif %}><label for="intravenoso">Intravenoso (</label>
+                <input type="checkbox" id="cyc" name="CyC" {% if modo=='editar' and volante.CyC %}checked{% endif %}> <label for="cyc">C y C</label>
+                <input type="checkbox" id="torax" name="Torax" {% if modo=='editar' and volante.Torax %}checked{% endif %}> <label for="torax">Torax</label>
+                <input type="checkbox" id="portal" name="Portal"{% if modo=='editar' and volante.Portal %}checked{% endif %}> <label for="portal">Portal</label>
+                <input type="checkbox" id="vascular" name="Vascular" {% if modo=='editar' and volante.Vascular %}checked{% endif %}> <label for="vascular">Vascular)</label><br>
+                <input type="checkbox" id="otro2_checkbox" > <label for="otro2_texto">Otro: </label><input type= "text" id= "otro2_texto" name="Otro2" value="{{ volante.Otro2 if modo=='editar' else '' }}"><br>
+                <input type="checkbox" id="oral" name="Oral" {% if modo=='editar' and volante.Oral %}checked{% endif %}> <label for="oral">Oral</label><br><br>
             </div>
 
             <!--Protocolo-->
             <div class="section">
                 <label><b>Protocolo:</b></label><br>
-                <input type="checkbox" id="rutina"> <label for="rutina">Rutina</label>
-                <input type="checkbox" id="rutinaCraneo"> <label for="rutinaCraneo">Rutina + Craneo</label>
-                <input type="checkbox" id="entero"> <label for="entero">C. Entero</label>
-                <input type="checkbox" id="cyc"> <label for="cyc">C y C</label><br>
-                <input type="checkbox" id="neuro"> <label for="neuro">Neuro</label>
-                <input type="checkbox" id="endocarditis"> <label for="endocarditis">Endocarditis</label>
-                <input type="checkbox" id="colinaPrecoz"> <label for="colinaPrecoz">Colina Precoz</label>
-                <input type="checkbox" id="colinaTardia"> <label for="colinaTardia">Colina Tardía R + C</label><br>
-                <input type="checkbox" id="paratiroides"> <label for="paratiroides">Paratiroides</label>
-                <input type="checkbox" id="y90"> <label for="y90">Y-90</label>
-                <input type="checkbox" id="lu177"> <label for="lu177">Lu-177</label>
-                <input type="checkbox" id="eess"> <label for="eess">EESS abajo</label><br><br>
+                <input type="checkbox" id="rutina" name="Rutina" {% if modo=='editar' and volante.Rutina %}checked{% endif %}> <label for="rutina">Rutina</label>
+                <input type="checkbox" id="rutinaCraneo" name="RutinaCraneo" {% if modo=='editar' and volante.RutinaCraneo %}checked{% endif %}> <label for="rutinaCraneo">Rutina + Craneo</label>
+                <input type="checkbox" id="entero" name="Entero" {% if modo=='editar' and volante.Entero %}checked{% endif %}> <label for="entero">C. Entero</label>
+                <input type="checkbox" id="cyc1" name="cyc1" {% if modo=='editar' and volante.cyc1 %}checked{% endif %}> <label for="cyc1">C y C</label><br>
+                <input type="checkbox" id="neuro" name="Neuro" {% if modo=='editar' and volante.Neuro %}checked{% endif %}> <label for="neuro">Neuro</label>
+                <input type="checkbox" id="endocarditis" name="Endocarditis" {% if modo=='editar' and volante.Endocarditis %}checked{% endif %}> <label for="endocarditis">Endocarditis</label>
+                <input type="checkbox" id="colinaPrecoz" name="ColinaPrecoz" {% if modo=='editar' and volante.ColinaPrecoz %}checked{% endif %}> <label for="colinaPrecoz">Colina Precoz</label>
+                <input type="checkbox" id="colinaTardia" name="ColinaTardia" {% if modo=='editar' and volante.ColinaTardia %}checked{% endif %}> <label for="colinaTardia">Colina Tardía R + C</label><br>
+                <input type="checkbox" id="paratiroides" name="Paratiroides" {% if modo=='editar' and volante.Paratiroides %}checked{% endif %}> <label for="paratiroides">Paratiroides</label>
+                <input type="checkbox" id="y90" name="y90" {% if modo=='editar' and volante.y90 %}checked{% endif %}> <label for="y90">Y-90</label>
+                <input type="checkbox" id="lu177" name="lu177" {% if modo=='editar' and volante.lu177 %}checked{% endif %}> <label for="lu177">Lu-177</label>
+                <input type="checkbox" id="eess" name="eess" {% if modo=='editar' and volante.eess %}checked{% endif %}> <label for="eess">EESS abajo</label><br><br>
             </div>
 
             <label><b>Hora de adquisición </b></label>
             <div class="section row">
                 <div class="column">
                     <label for="inicio">Inicio:</label>
-                    <input type="time" id="inicio">
+                    <input type="time" id="inicio" name="adquisicionInicio"
+                    value="{% if modo=='editar' and volante.adquisicionInicio %}{{ volante.adquisicionInicio }}{% endif %}">
+            
                 </div>
                 
                 <div class="column">
                     <label for="final">Final:</label>
-                    <input type="time" id="final">
+                    <input type="time" id="final" name="adquisicionFinal"
+                    value="{% if modo=='editar' and volante.adquisicionFinal %}{{ volante.adquisicionFinal }}{% endif %}">
                 </div>
             </div><br>
 
@@ -287,12 +319,14 @@
             <br>  
                 <div class="column">
                     <label for="inicio1">Inicio:</label>
-                    <input type="time" id="inicio1">
+                    <input type="time" id="inicio1" name="tardiaInicio"
+                    value="{% if modo=='editar' and volante.tardiaInicio %}{{ volante.tardiaInicio }}{% endif %}">
                 </div>
                 
                 <div class="column">
                     <label for="final1">Final:</label>
-                    <input type="time" id="final1">
+                    <input type="time" id="final1" name="tardiaFinal"
+                    value="{% if modo=='editar' and volante.tardiaFinal %}{{ volante.tardiaFinal }}{% endif %}">
                 </div>
             
             </div><br>
@@ -305,20 +339,24 @@
                 <div class="row">
                     <div class="column">
                         <label for="peso">Peso (kg):</label>
-                        <input type="number" id="peso">
+                        <input type="number" id="peso" name="Peso"
+                        value="{{ volante.Peso if modo=='editar' else '' }}">
                     </div>
                     <div class="column">
                         <label for="altura">Altura (cm):</label>
-                        <input type="number" id="altura">
+                        <input type="number" id="altura" name="Altura"
+                        value="{{ volante.Altura if modo=='editar' else '' }}">
                     </div>
                     <br>
                     <div class="column">
                         <label><b>Test de Embarazo:</b></label>
                         <div>
-                            <input type="checkbox" id="test_positivo">
+                            <input type="checkbox" id="test_positivo" name="embarazo_positivo"
+                            {% if modo=='editar' and volante.embarazo_positivo %}checked{% endif %}>
                             <label for="test_positivo">Positivo</label>
                             <br>
-                            <input type="checkbox" id="test_negativo">
+                            <input type="checkbox" id="test_negativo" name="embarazo_negativo"
+                            {% if modo=='editar' and volante.embarazo_negativo %}checked{% endif %}>
                             <label for="test_negativo">Negativo</label>
                         </div>
                     </div>
@@ -331,37 +369,37 @@
                 <div class="section row">
                     <input type="checkbox" id="contraste_checkbox">
                     <div class="column">
-                        <label for="contraste_texto">C. Informado de contraste:</label><input type="text" id="contraste_texto">
+                        <label for="contraste_texto">C. Informado de contraste:</label><input type="text" id="contraste_texto" name="informado_Contraste" value="{{ volante.informado_Contraste if modo=='editar' else '' }}">
                     </div>
                     <input type="checkbox" id="fur_checkbox">
                     <div class="column">
-                        <label for="fur_texto">FUR:</label><input type= "date" id= "fur_texto">
+                        <label for="fur_texto">FUR:</label><input type= "date" id= "fur_texto" name="FUR" value="{% if modo=='editar' and volante.FUR %}{{ volante.FUR.isoformat() }}{% endif %}" >
                     </div>
                 </div>
                 <br>
                 <div class="section row">
                     <div class="column">
                         <label for="glucemia pre-inyeccion">Glucemia Pre-Inyeccion:</label>
-                        <input type="text" id="glucemia pre-inyeccion">
+                        <input type="text" id="glucemia pre-inyeccion" name="Glucemia_pre_inyeccion" value="{{ volante.Glucemia_pre_inyeccion if modo=='editar' else '' }}">
                     </div>
                     
                     <div class="column">
                         <label for="hora1">Hora:</label>
-                        <input type="time" id="hora1">
+                        <input type="time" id="hora1" name="hora1" value="{% if modo=='editar' and volante.hora1 %}{{ volante.hora1 }}{% endif %}">
                     </div>
                 </div>
                 <br>
                 <div class="checkbox-row">
                     <div class="checkbox">
-                        <input type="checkbox" id="actrapid">
+                        <input type="checkbox" id="actrapid" name="Actrapid" {% if modo=='editar' and volante.Actrapid %}checked{% endif %}>
                         <label for="actrapid">Actrapid</label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="lorazepan">
+                        <input type="checkbox" id="lorazepan" name="Lorazepan_Diazepan" {% if modo=='editar' and volante.Lorazepan_Diazepan %}checked{% endif %}>
                         <label for="lorazepan">Lorazepan/Diazepan</label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="suero">
+                        <input type="checkbox" id="suero" name="Suero" {% if modo=='editar' and volante.Suero %}checked{% endif %}>
                         <label for="suero">Suero</label>
                     </div>
                     
@@ -371,23 +409,23 @@
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="otro_checkbox">  
-                    <label for="otro_texto">Otro: </label><input type="text" id="otro_texto">
+                    <label for="otro_texto">Otro: </label><input type="text" id="otro_texto" name="otro_texto" value="{{ volante.otro_texto if modo=='editar' else '' }}">
                 </div>  
                 <br>
                 <div class="column">
                     <label for="dosis">DOSIS:</label>
-                    <input type="text" id="dosis">
+                    <input type="text" id="dosis" name="DOSIS" value="{{ volante.DOSIS if modo=='editar' else '' }}">
                 </div>
                 <br>
                 <br>
                 <div class="checkbox-row">
                     <label><b>Lugar de inyección:</b></label><br>
                     <div class="checkbox">
-                        <input type="checkbox" id="izquierda">
+                        <input type="checkbox" id="izquierda" name="inyeccion_izq" {% if modo=='editar' and volante.inyeccion_izq %}checked{% endif %}>
                         <label for="izquierda">IZQUIERDA </label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="derecha">
+                        <input type="checkbox" id="derecha" name="inyeccion_dcha" {% if modo=='editar' and volante.inyeccion_dcha %}checked{% endif %}>
                         <label for="derecha">DERECHA</label>
                     </div><br>
                 </div>
@@ -395,19 +433,19 @@
                 <br>
                 <div class="checkbox-row">
                     <div class="checkbox">
-                        <input type="checkbox" id="antecubital">
+                        <input type="checkbox" id="antecubital" name="Antecubital" {% if modo=='editar' and volante.Antecubital %}checked{% endif %}>
                         <label for="antecubital">Antecubital</label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="antebrazo">
+                        <input type="checkbox" id="antebrazo" name="Antebrazo" {% if modo=='editar' and volante.Antebrazo %}checked{% endif %}>
                         <label for="antebrazo">Antebrazo</label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="mano">
+                        <input type="checkbox" id="mano" name="Mano" {% if modo=='editar' and volante.Mano %}checked{% endif %}>
                         <label for="mano">Suero</label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="pie">
+                        <input type="checkbox" id="pie" name="Pie" {% if modo=='editar' and volante.Pie %}checked{% endif %}>
                         <label for="pie">Pie</label>
                     </div>
                 <br>
@@ -416,28 +454,28 @@
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="otro3_checkbox">     
-                    <label for="otro3_texto">Otro: </label><input type="text" id="otro3_texto">
+                    <label for="otro3_texto">Otro: </label><input type="text" id="otro3_texto" name="otro3_texto" value="{{ volante.otro3_texto if modo=='editar' else '' }}">
                 </div>
                 <br>
                     
                 
-                            
+        
                 
                 <br>
                 <div class="checkbox-row">
                     <label><b>Incidencia:</b></label><br>
                     <div class="checkbox">
-                        <input type="checkbox" id="radiofarmaco">
+                        <input type="checkbox" id="radiofarmaco" name="Radiofarmaco" {% if modo=='editar' and volante.Radiofarmaco %}checked{% endif %}>
                         <label for="radiofarmaco">RADIOFARMACO    / </label>
                     </div>
                     <div class="checkbox">
-                        <input type="checkbox" id="contraste1">
+                        <input type="checkbox" id="contraste1" name="contraste1"{% if modo=='editar' and volante.contraste1 %}checked{% endif %} >
                         <label for="contraste1">CONTRASTE</label>
                     </div>
 
                     <div class="checkbox">
                         <input type="checkbox" id="administrado_checkbox">
-                        <label for="administrado_texto">No administrado (motivo): </label><input type= "text" id= "administrado_texto">
+                        <label for="administrado_texto">No administrado (motivo): </label><input type= "text" id= "administrado_texto" name="No_administrado_motivo" value="{{ volante.No_administrado_motivo if modo=='editar' else '' }}"  >
                     </div>
                 </div>  
             </div>
@@ -445,28 +483,28 @@
                             
             <div class="section row">
                 <div class="checkbox">
-                    <input type="checkbox" id="extravasacion">
+                    <input type="checkbox" id="extravasacion" name="Extravasacion" {% if modo=='editar' and volante.Extravasacion %}checked{% endif %}>
                     <label for="extravasacion">Extravasación</label>
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="reaccion">
+                    <input type="checkbox" id="reaccion" name="Reaccion_Alergica" {% if modo=='editar' and volante.Reaccion_Alergica %}checked{% endif %}>
                     <label for="reaccion">Reacción Alérgica</label>
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="intrarterial">
+                    <input type="checkbox" id="intrarterial" name="Intrarterial" {% if modo=='editar' and volante.Intrarterial %}checked{% endif %}>
                     <label for="intrarterial">Intrarterial</label>
                 </div><br>
                 <div class="checkbox">
-                    <input type="checkbox" id="malestar">
+                    <input type="checkbox" id="malestar" name="Malestar_general" {% if modo=='editar' and volante.Malestar_general %}checked{% endif %}>
                     <label for="malestar">Malestar General</label>
                 </div>
                 <div class="checkbox">
-                    <input type="checkbox" id="sincope">
+                    <input type="checkbox" id="sincope" name="Sincope" {% if modo=='editar' and volante.Sincope %}checked{% endif %}>
                     <label for="sincope">Síncope</label>
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="otro1_checkbox">
-                    <label for="otro1_texto">Otro: </label><input type= "text" id= "otro1_texto">
+                    <label for="otro1_texto">Otro: </label><input type= "text" id= "otro1_texto" name="otro1_texto" value="{{ volante.otro1_texto if modo=='editar' else '' }}">
                 </div>
             </div>   
 
@@ -480,7 +518,7 @@
             
             <br>
             <!-- BOTÓN SOLO PARA GENERAR PDF -->
-            <button type="button" onclick="generarPDF()">Exportar a PDF</button> 
+            <button type="button" onclick="generarPDF()"><i class="fa-solid fa-file-pdf" style="margin-right:6px;"></i>Exportar a PDF</button> 
 
             <!-- BOTÓN PARA GUARDAR SOLO EN BASE DE DATOS -->
             <button type="submit">Guardar en base de datos</button>

@@ -1,5 +1,3 @@
-// mensajesFlash.js
-
 // Solo ejecuta si hay un mensaje flash en pantalla
 document.addEventListener('DOMContentLoaded', () => {
   const mensaje = document.querySelector('.mensaje-flash');

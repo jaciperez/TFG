@@ -6,14 +6,19 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/alta_paciente.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="auth-container">
       <div class="nav-buttons">
-        <a href="javascript:history.back()" class="btn-back">⬅</a>
-        <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+        <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
       </div>
-    <h1>🩺 Alta de paciente</h1>
+    <br>
+    <br>
+    <h1><i class="fa-solid fa-user-plus" style="margin-right:20px;"></i>Alta de paciente</h1>
+    <br>
+    <br>
 
     <form method="POST">
       <label for="nombre">Nombre:</label>

@@ -4,9 +4,25 @@
   <meta charset="UTF-8">
   <title>Editar usuario</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/editar_usuario.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="auth-container">
+    <div class="nav-buttons">
+      <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
+    </div>
+    {% with mensajes = get_flashed_messages() %}
+      {% if mensajes %}
+        <div class="mensaje-flash">
+          {% for m in mensajes %}
+            <p>{{ m }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     <h1>Editar usuario</h1>
 
     <form method="POST">

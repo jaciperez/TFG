@@ -5,8 +5,8 @@
   <title>Gestión de usuarios</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/gestion_users.css') }}">
   <script src="{{ url_for('static', filename='scripts/mensajesFlash.js') }}"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/botonesBack.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   
 </head>
@@ -14,14 +14,18 @@
 
   <div class="auth-container">
     <div class="nav-buttons">
-      <a href="javascript:history.back()" class="btn-back">⬅</a>
-      <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+      <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+      <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
     </div>
     <h1>Gestión de usuarios</h1>
       
 
     <div class="top-right-buttons" style="text-align:right; margin-bottom:15px;">
-      <a href="{{ url_for('volantes.ver_pendientes') }}" class="pendientes-button">   Registros pendientes</a>
+      <a href="{{ url_for('volantes.ver_pendientes') }}" class="pendientes-button"><i class="fa-solid fa-box-archive" style="margin-right:6px;"></i>Registros pendientes
+        {% if pendientes_count > 0 %}
+          <span class="badge-pendientes">({{ pendientes_count }})</span>
+        {% endif %}
+      </a>
     </div>
 
     {% with mensajes = get_flashed_messages() %}
@@ -33,7 +37,14 @@
         </div>
       {% endif %}
     {% endwith %}
-    
+    <form method="GET" action="{{ url_for('volantes.gestion_usuarios') }}" class="buscador-form">
+      <input type="text" name="q" placeholder="Buscar usuario, email o rol..." value="{{ q or '' }}">
+      <button type="submit">Buscar</button>
+      {% if q %}
+        <a href="{{ url_for('volantes.gestion_usuarios') }}">Limpiar</a>
+      {% endif %}
+    </form>
+
     <table>
       <thead>
         <tr>
@@ -76,12 +87,12 @@
           <td>
             <div class="boton-grupo">
               <a href="{{ url_for('volantes.editar_usuario', id=u.id) }}">
-                <button class="boton-accion boton-editar" title="Editar usuario">Editar</button>
+                <button class="boton-accion boton-editar" title="Editar usuario"><i class="fa-solid fa-pen"style="margin-right:6px;"></i>Editar</button>
               </a>
 
               <form method="POST" action="{{ url_for('volantes.delete_user', id=u.id) }}">
                 <button type="submit" class="boton-accion boton-eliminar"
-                        onclick="return confirm('¿Eliminar usuario {{ u.username }}?');">Eliminar</button>
+                        onclick="return confirm('¿Eliminar usuario {{ u.username }}?');"><i class="fa-solid fa-trash" style="margin-right:6px;"></i>Eliminar</button>
               </form>
 
               <form method="POST" action="{{ url_for('volantes.toggle_estado_usuario', id=u.id) }}">

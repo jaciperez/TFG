@@ -3,15 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Bandeja de Volantes</title>
-    
-
-  <!-- DataTables CSS -->
+  
   <link 
     rel="stylesheet"
     href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"
   />
-
-  <!-- Tus CSS personalizados -->
   <link 
     rel="stylesheet" 
     href="{{ url_for('static', filename='styles/bandeja.css') }}"
@@ -28,15 +24,19 @@
     rel="stylesheet" 
     href="{{ url_for('static', filename='styles/botonesBack.css') }}"
   >
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  >
 </head>
 <body>
 
   <div class="nav-buttons">
-    <a href="javascript:history.back()" class="btn-back">⬅  </a>
-    <a href="{{ url_for('volantes.menu') }}" class="btn-home">Home</a>
+    <a href="javascript:history.back()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+    <a href="{{ url_for('volantes.menu') }}" class="btn-home"><i class="fa-solid fa-house" style="margin-right:6px;"></i>Home</a>
   </div>
 
-  <h1>BANDEJA DE VOLANTES</h1>
+  <h1><i class="fa-solid fa-inbox" style="margin-right:8px;"></i>BANDEJA DE VOLANTES</h1>
 
   {% with mensajes = get_flashed_messages() %}
     {% if mensajes %}
@@ -45,16 +45,14 @@
       </div>
     {% endif %}
   {% endwith %}
-
   <div class="botones-superiores">
-    <button id="btn-adv-search" class="btn-adv">🔍 Búsqueda avanzada</button>
-    <a href="{{ url_for('volantes.exportar_excel') }}" class="excel-button">Exportar a Excel</a>
+    <a href="{{ url_for('volantes.nuevo_volante') }}" class="btn-flotante"><i class="fa-solid fa-plus" style="margin-right:6px;"></i>Nuevo volante</a>
+    <button id="btn-adv-search" class="btn-adv"> <i class="fa-solid fa-sliders" style="margin-right:6px;"></i> Filtro Avanzado</button>
   </div>
-
-  <div class="toggle-columns-container">
-    <button id="btn-toggle-cols">Ver más…</button>
-  </div>
+  
   <div style="overflow-x: auto; width: 100%;">
+
+  </div>
     <table id="tabla-volantes" class="tabla-volantes display nowrap">
       <thead>
         <tr>
@@ -64,6 +62,9 @@
           <th>Citado por</th>
           <th>Fecha</th>
           <th>Hora</th>
+          <th>Historia Clínica</th>
+          <th>Dieta ENDOCARDITIS</th>
+          <th>Adelantar si se puede</th>
           <th>Habitación</th>
           <th>Ext</th>
           <th>Enfermera</th>
@@ -100,6 +101,71 @@
           <th>F-PSMA</th>
           <th>Amiloide</th>
           <th>Ga-DOTATOC</th>
+          <th>Respiratorio</th>
+          <th>Cardiaco</th>
+          <th>Planificación</th>
+          <th>EARL</th>
+
+          <th>Intravenoso</th>
+          <th>C y C</th>
+          <th>Torax</th>
+          <th>Portal</th>
+          <th>Vascular</th>
+          <th>Otro (Contraste)</th>
+          <th>Oral</th>
+
+          <th>Rutina</th>
+          <th>Rutina + Craneo</th>
+          <th>C. Entero</th>
+          <th>C y C (Protocolo)</th>
+          <th>Neuro</th>
+          <th>Endocarditis</th>
+          <th>Colina Precoz</th>
+          <th>Colina Tardía</th>
+          <th>Paratiroides</th>
+          <th>Y-90</th>
+          <th>Lu-177</th>
+          <th>EESS abajo</th>
+
+          <th>Inicio adquisición</th>
+          <th>Final adquisición</th>
+          <th>Inicio tardía</th>
+          <th>Final tardía</th>
+
+          <th>Peso</th>
+          <th>Altura</th>
+          <th>Test embarazo +</th>
+          <th>Test embarazo -</th>
+          <th>Informado contraste</th>
+          <th>FUR</th>
+          <th>Glucemia Pre-Iny.</th>
+          <th>Hora glucemia</th>
+
+          <th>Actrapid</th>
+          <th>Lorazepan/Diazepan</th>
+          <th>Suero</th>
+          <th>Otro (texto)</th>
+          <th>DOSIS</th>
+
+          <th>Iny. Izquierda</th>
+          <th>Iny. Derecha</th>
+          <th>Antecubital</th>
+          <th>Antebrazo</th>
+          <th>Mano</th>
+          <th>Pie</th>
+          <th>Otro lugar</th>
+
+          <th>Radiofármaco incidencia</th>
+          <th>Contraste incidencia</th>
+          <th>No administrado</th>
+
+          <th>Extravasación</th>
+          <th>Reacción Alérgica</th>
+          <th>Intrarterial</th>
+          <th>Malestar general</th>
+          <th>Síncope</th>
+          <th>Otro incidencia</th>
+
           
         </tr>
       </thead>
@@ -111,11 +177,11 @@
             data-editor="{{ v.editor.username if v.editor else 'Sin cambios' }}"
             data-editado="{{ v.fecha_edicion.strftime('%d/%m/%Y %H:%M') if v.fecha_edicion else '' }}">
           <td>
-            <a href="{{ url_for('volantes.editar_volante', id=v.id) }}" class="editar-button">Editar</a>
+            <a href="{{ url_for('volantes.editar_volante', id=v.id) }}" class="editar-button"><i class="fa-solid fa-pen"style="margin-right:6px;"></i>Editar</a>
 
 
             <form method="POST" action="{{ url_for('volantes.eliminar_volante', id=v.id) }}" style="display:inline;" onsubmit="return confirm('¿Seguro que quieres eliminar este volante?');">
-              <button class="eliminar-button">Eliminar</button>
+              <button class="eliminar-button"><i class="fa-solid fa-trash" style="margin-right:6px;"></i>Eliminar</button>
             </form>
 
           </td>
@@ -125,6 +191,15 @@
           <td>{{ v.Citado_por }}</td>
           <td>{{ v.Fecha }}</td>
           <td>{{ v.Hora }}</td>
+          <td>{{ v.Historia_Clinica or '' }}</td>
+          <td>{{ 'Sí' if v.Dieta_ENDOCARDITIS else 'No' }}</td>
+          <td>
+            {% if v.Adelantar_si_se_puede %}
+              <span style="color:red; font-weight:bold;">*</span>
+            {% else %}
+              No
+            {% endif %}
+          </td>
           <td>{{ v.Habitacion }}</td>
           <td>{{ v.Extension }}</td>
           <td>{{ v.Enfermera }}</td>
@@ -143,7 +218,7 @@
           <td>{{ 'Sí' if v.Control_evolutivo else 'No' }}</td>
           <td>{{ 'Sí' if v.TOD else 'No' }}</td>
           <td>{{ 'Sí' if v.Planificacion_RT else 'No' }}</td>
-          <td>{{ 'Sí' if v.Re_Estadistificacion else 'No' }}</td>
+          <td>{{ 'Sí' if v.Re_Estadificacion else 'No' }}</td>
           <td>{{ 'Sí' if v.Sospecha_Recidiva else 'No' }}</td>
           <td>{{ 'Sí' if v.Sospecha_Infeccion else 'No' }}</td>
           <td>{{ v.PET }}</td>
@@ -161,16 +236,114 @@
           <td>{{ 'Sí' if v.F_PSMA else 'No' }}</td>
           <td>{{ 'Sí' if v.Amiloide else 'No' }}</td>
           <td>{{ 'Sí' if v.Ga_DOTATOC else 'No' }}</td>
+
+          <td>{{ 'Sí' if v.Respiratorio else 'No' }}</td>
+          <td>{{ 'Sí' if v.Cardiaco else 'No' }}</td>
+          <td>{{ 'Sí' if v.Planificacion else 'No' }}</td>
+          <td>{{ 'Sí' if v.EARL else 'No' }}</td>
+
+          <td>{{ 'Sí' if v.Intravenoso else 'No' }}</td>
+          <td>{{ 'Sí' if v.CyC else 'No' }}</td>
+          <td>{{ 'Sí' if v.Torax else 'No' }}</td>
+          <td>{{ 'Sí' if v.Portal else 'No' }}</td>
+          <td>{{ 'Sí' if v.Vascular else 'No' }}</td>
+          <td>{{ v.Otro2 }}</td>
+          <td>{{ 'Sí' if v.Oral else 'No' }}</td>
+
+          <td>{{ 'Sí' if v.Rutina else 'No' }}</td>
+          <td>{{ 'Sí' if v.RutinaCraneo else 'No' }}</td>
+          <td>{{ 'Sí' if v.Entero else 'No' }}</td>
+          <td>{{ 'Sí' if v.cyc else 'No' }}</td>
+          <td>{{ 'Sí' if v.Neuro else 'No' }}</td>
+          <td>{{ 'Sí' if v.Endocarditis else 'No' }}</td>
+          <td>{{ 'Sí' if v.ColinaPrecoz else 'No' }}</td>
+          <td>{{ 'Sí' if v.ColinaTardia else 'No' }}</td>
+          <td>{{ 'Sí' if v.Paratiroides else 'No' }}</td>
+          <td>{{ 'Sí' if v.y90 else 'No' }}</td>
+          <td>{{ 'Sí' if v.lu177 else 'No' }}</td>
+          <td>{{ 'Sí' if v.eess else 'No' }}</td>
+
+          <td>{{ v.adquisicionInicio }}</td>
+          <td>{{ v.adquisicionFinal }}</td>
+          <td>{{ v.tardiaInicio }}</td>
+          <td>{{ v.tardiaFinal }}</td>
+
+          <td>{{ v.Peso }}</td>
+          <td>{{ v.Altura }}</td>
+          <td>{{ 'Sí' if v.embarazo_positivo else 'No' }}</td>
+          <td>{{ 'Sí' if v.embarazo_negativo else 'No' }}</td>
+          <td>{{ v.informado_Contraste }}</td>
+          <td>{{ v.FUR }}</td>
+          <td>{{ v.Glucemia_pre_inyeccion }}</td>
+          <td>{{ v.hora1 }}</td>
+
+          <td>{{ 'Sí' if v.Actrapid else 'No' }}</td>
+          <td>{{ 'Sí' if v['Lorazepan/Diazepan'] else 'No' }}</td>
+          <td>{{ 'Sí' if v.Suero else 'No' }}</td>
+          <td>{{ v.otro_texto }}</td>
+          <td>{{ v.DOSIS }}</td>
+
+          <td>{{ 'Sí' if v.inyeccion_izq else 'No' }}</td>
+          <td>{{ 'Sí' if v.inyeccion_dcha else 'No' }}</td>
+          <td>{{ 'Sí' if v.Antecubital else 'No' }}</td>
+          <td>{{ 'Sí' if v.Antebrazo else 'No' }}</td>
+          <td>{{ 'Sí' if v.Mano else 'No' }}</td>
+          <td>{{ 'Sí' if v.Pie else 'No' }}</td>
+          <td>{{ v.otro3_texto }}</td>
+
+          <td>{{ 'Sí' if v.Radiofarmaco else 'No' }}</td>
+          <td>{{ 'Sí' if v.contraste1 else 'No' }}</td>
+          <td>{{ v.No_administrado_motivo }}</td>
+
+          <td>{{ 'Sí' if v.Extravasacion else 'No' }}</td>
+          <td>{{ 'Sí' if v.Reaccion_Alergica else 'No' }}</td>
+          <td>{{ 'Sí' if v.Intrarterial else 'No' }}</td>
+          <td>{{ 'Sí' if v.Malestar_general else 'No' }}</td>
+          <td>{{ 'Sí' if v.Sincope else 'No' }}</td>
+          <td>{{ v.otro1_texto }}</td>
+
         </tr>
         {% endfor %}
       </tbody>
     </table>
+    <br>
+    <div class="toggle-columns-container">
+      <button id="btn-toggle-cols"><i class="fa-solid fa-bars" style="margin-right:6px;"></i>Ver el resto</button>
+    </div>
   </div>
+  <div class="export-container">
+
+    <div class="export-panel">
+      <h3>Exportar la tabla</h3>
+      <div class="excel-button-container">
+        <a href="{{ url_for('volantes.exportar_excel') }}" class="excel-button"><i class="fa-solid fa-file-excel" style="margin-right:6px;"></i>Exportar Excel</a>
+      </div>
+    </div>
+
+    <div class="export-panel">
+      <h3>Exportar por mes</h3>
+      <form action="{{ url_for('volantes.exportar_excel_mes') }}" method="get">
+        <input type="number" name="year" value="{{ now().year }}" placeholder="Año" required>
+        <input type="number" name="month" min="1" max="12" value="{{ now().month }}" placeholder="Mes" required>
+        <button type="submit"><i class="fa-solid fa-file-excel" style="margin-right:6px;"></i>Exportar</button>
+      </form>
+    </div>
+
+    <div class="export-panel">
+      <h3>Exportar por NHC</h3>
+      <form action="{{ url_for('volantes.exportar_excel_historia') }}" method="get">
+        <input type="text" name="num_historia" placeholder="Nº Historia" required>
+        <button type="submit"><i class="fa-solid fa-file-excel" style="margin-right:6px;"></i>Exportar</button>
+      </form>
+    </div>
+
+  </div>
+  
   <!-- Modal de Búsqueda Avanzada -->
   <div id="adv-search-modal" class="modal">
     <div class="modal-content">
       <span class="close-modal">&times;</span>
-      <h2>Búsqueda avanzada</h2>
+      <h2>Filtro avanzado</h2>
       <form id="adv-search-form">
         <fieldset>
           <legend>Evaluación</legend>
@@ -208,7 +381,7 @@
           <label><input type="checkbox" name="Control_evolutivo"> Control evolutivo</label>
           <label><input type="checkbox" name="TOD"> TOD</label>
           <label><input type="checkbox" name="Planificacion_RT"> Planificación RT</label>
-          <label><input type="checkbox" name="Re_Estadistificacion"> Re-Estadificación</label>
+          <label><input type="checkbox" name="Re_Estadificacion"> Re-Estadificación</label>
           <label><input type="checkbox" name="Sospecha_Recidiva"> Sospecha Recidiva</label>
           <label><input type="checkbox" name="Sospecha_Infeccion"> Sospecha Infección</label>
         </fieldset>
@@ -239,6 +412,81 @@
           <label><input type="checkbox" name="Amiloide"> Amiloide</label>
           <label><input type="checkbox" name="Ga_DOTATOC"> Ga-DOTATOC</label>
         </fieldset>
+        <fieldset>
+          <legend>Técnicos</legend>
+          <label><input type="checkbox" name="Respiratorio"> Respiratorio</label>
+          <label><input type="checkbox" name="Cardiaco"> Cardiaco</label>
+          <label><input type="checkbox" name="Planificacion"> Planificación</label>
+          <label><input type="checkbox" name="EARL"> EARL</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Contraste</legend>
+          <label><input type="checkbox" name="Intravenoso"> Intravenoso</label>
+          <label><input type="checkbox" name="CyC"> C y C</label>
+          <label><input type="checkbox" name="Torax"> Torax</label>
+          <label><input type="checkbox" name="Portal"> Portal</label>
+          <label><input type="checkbox" name="Vasvular"> Vascular</label>
+          <label><input type="text" name="Otro2" placeholder="Otro (texto libre)"></label>
+          <label><input type="checkbox" name="Oral"> Oral</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Protocolo</legend>
+          <label><input type="checkbox" name="Rutina"> Rutina</label>
+          <label><input type="checkbox" name="RutinaCraneo"> Rutina + Cráneo</label>
+          <label><input type="checkbox" name="Entero"> C. Entero</label>
+          <label><input type="checkbox" name="cyc1"> C y C (protocolo)</label>
+          <label><input type="checkbox" name="Neuro"> Neuro</label>
+          <label><input type="checkbox" name="Endocarditis"> Endocarditis</label>
+          <label><input type="checkbox" name="ColinaPrecoz"> Colina Precoz</label>
+          <label><input type="checkbox" name="ColinaTardia"> Colina Tardía</label>
+          <label><input type="checkbox" name="Paratiroides"> Paratiroides</label>
+          <label><input type="checkbox" name="y90"> Y-90</label>
+          <label><input type="checkbox" name="lu177"> Lu-177</label>
+          <label><input type="checkbox" name="eess"> EESS abajo</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Enfermería</legend>
+          <label><input type="number" step="any" name="Peso" placeholder="Peso (kg)"></label>
+          <label><input type="number" step="any" name="Altura" placeholder="Altura (cm)"></label>
+          <label><input type="checkbox" name="embarazo_positivo"> Test embarazo +</label>
+          <label><input type="checkbox" name="embarazo_negativo"> Test embarazo -</label>
+          <label><input type="text" name="informado_Contraste" placeholder="Informado contraste"></label>
+          <label>FUR<input type="date" name="FUR"></label>
+          <label><input type="text" name="Glucemia_pre_inyeccion" placeholder="Glucemia Pre-Iny."></label>
+          <label>Hora-preinyeccion<input type="time" name="hora1"></label>
+          <label><input type="checkbox" name="Actrapid"> Actrapid</label>
+          <label><input type="checkbox" name="Lorazepan_Diazepan"> Lorazepan/Diazepan</label>
+          <label><input type="checkbox" name="Suero"> Suero</label>
+          <label><input type="text" name="otro_texto" placeholder="Otro (texto libre)"></label>
+          <label><input type="text" name="DOSIS" placeholder="Dosis"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Lugar de inyección</legend>
+          <label><input type="checkbox" name="inyeccion_izq"> Izquierda</label>
+          <label><input type="checkbox" name="inyeccion_dcha"> Derecha</label>
+          <label><input type="checkbox" name="Antecubital"> Antecubital</label>
+          <label><input type="checkbox" name="Antebrazo"> Antebrazo</label>
+          <label><input type="checkbox" name="Mano"> Mano</label>
+          <label><input type="checkbox" name="Pie"> Pie</label>
+          <label><input type="text" name="otro3_texto" placeholder="Otro lugar"></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Incidencias</legend>
+          <label><input type="checkbox" name="Radiofarmaco"> Radiofármaco</label>
+          <label><input type="checkbox" name="contraste1"> Contraste</label>
+          <label><input type="text" name="No_administrado_motivo" placeholder="Motivo no administración"></label>
+          <label><input type="checkbox" name="Extravasacion"> Extravasación</label>
+          <label><input type="checkbox" name="Reaccion_Alergica"> Reacción alérgica</label>
+          <label><input type="checkbox" name="Intrarterial"> Intrarterial</label>
+          <label><input type="checkbox" name="Malestar_general"> Malestar general</label>
+          <label><input type="checkbox" name="Sincope"> Síncope</label>
+          <label><input type="text" name="otro1_texto" placeholder="Otro incidente"></label>
+        </fieldset>
 
         <button type="submit">Aplicar filtro</button>
         <button type="button" id="btn-clear-filters">Limpiar filtros</button>
@@ -247,7 +495,7 @@
   </div>
 
   <div id="tooltip-panel"></div>
-  <a href="{{ url_for('volantes.nuevo_volante') }}" class="btn-flotante">➕</a>
+  
 
   <div class="volver">
     <a href="/">⬅ Volver al menú</a>
